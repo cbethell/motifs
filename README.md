@@ -1,6 +1,4 @@
-# testrepo
-This is a test repository
+# motifs
 
-**This is a bolded line**
+This is a repository that will analyze the distribution of motifs in ordered and disordered regions in proteins. 
 
-code
