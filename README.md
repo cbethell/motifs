@@ -1,4 +1,4 @@
 # motifs
 
-This is a repository that will analyze the distribution of motifs in ordered and disordered regions in proteins. 
+This is a repository contains data that will be used to analyze the distribution of motifs in ordered and disordered regions in proteins. 
 
