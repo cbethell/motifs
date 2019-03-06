@@ -31,12 +31,21 @@ disordered_id_count <- disordered_YXX %>%
 
 #shows ordered vs disordered for proteins that had motifs in both regions
 total_count_YXX <- ordered_id_count %>% 
-  join(disordered_id_count, type = "inner", by = "sequence_id")
+  join(disordered_id_count, type = "left", by = "sequence_id")
 
 names(total_count_YXX)[2] <- "o_count" 
 names(total_count_YXX)[3] <- "d_count" 
-total_count_YXX <- as.tibble(total_count_YXX)
+total_count_YXX <- as_tibble(total_count_YXX)
 
+total_count_YXX <- total_count_YXX %>% 
+  mutate(d_count = replace_na(d_count, 0))
+
+#look for the most significant 
+sig <- total_count_YXX %>%
+  mutate(sig = o_count - d_count >= abs(7))
+#but missing those that are in disordered and not in ordered
 #too large
-ggplot(data = total_count_YXX, mapping = aes(x = o_count, y = d_count, color = sequence_id)) +
-  geom_line() 
+ggplot(data = sig[sig$sig==TRUE,], mapping = aes(x = o_count, y = d_count, color = sequence_id, group = 1)) + 
+  geom_line()
+
+#find proteins that exist in only one of the datasets (does not overlap)
