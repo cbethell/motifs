@@ -14,6 +14,8 @@ YXX %>%
   drop_na() %>%
   summary()
 
+#### TODO: Try to consolidate the code that produces `total_count_YXX` into a single stream of piping using the dplyr function group_by
+
 #find the motifs that are in the ordered regions
 ordered_YXX <- YXX %>%
   filter(domain_type == "O")
@@ -36,6 +38,8 @@ disordered_id_count <- disordered_YXX %>%
 total_count_YXX <- ordered_id_count %>% 
   left_join(disordered_id_count, by = "sequence_id")
 
+
+#### TODO: Try using the dplyr function "rename" instead of names() - this avoids hardcoding which is column 2 or 3, etc
 #rename the columns 
 names(total_count_YXX)[2] <- "o_count" 
 names(total_count_YXX)[3] <- "d_count" 
@@ -44,11 +48,14 @@ total_count_YXX <- as_tibble(total_count_YXX)
 total_count_YXX <- total_count_YXX %>% 
   mutate(d_count = replace_na(d_count, 0))
 
+
+### TODO: abs(7) is 7... what are you trying to take the absolute value of? 
 #look for the most significant 
 sig <- total_count_YXX %>%
   mutate(sig = o_count - d_count >= abs(7))
   
-  
+
+### TODO: use filter rather than logical indexing. The first goal here should be to make a scatterplot, not a line plot. X axis = number of ordered motifs per protein, Y axis = number of disordered motifs per protein. At this stage we don't care about the specific proteins. Note how nothing is really meaningfully colored in this plot
 ggplot(data = sig[sig$sig==TRUE,], mapping = aes(x = o_count, y = d_count, color = sequence_id, group = 1)) + 
   geom_line()
 
