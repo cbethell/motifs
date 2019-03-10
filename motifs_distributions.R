@@ -14,9 +14,8 @@ YXX <- data %>%
 
 YXX %>%
   as_tibble() %>% 
-  ggplot(aes(x = sequence_id, y = domain_type)) +
+  ggplot(aes(x = (domain_type == "O"), y = (domain_type == "D"))) +
   geom_hex(aes(color = count)) 
-
 
 
 #cluster to include sequence ids (since amount of observations seems to be too large)?
