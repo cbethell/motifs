@@ -1,6 +1,5 @@
 #analysis of motifs distributions 
 library(tidyverse)
-
 data <- read_csv("human_proteome_motifs_across_domains.csv")
 
 #focus only on the motif "YXX[LIMFV] and find the number of motifs in each domain type: ordered and disordered for each protein 
@@ -8,15 +7,20 @@ data <- read_csv("human_proteome_motifs_across_domains.csv")
 YXX <- data %>% 
   filter(motif_type == "YXX[LIMFV]") %>%
   group_by(sequence_id,domain_type) %>%
-  summarize(count=n()) 
-
-### One solution is geom_hex: https://ggplot2.tidyverse.org/reference/geom_hex.html . This makes a heatmap which can be colored by number of proteins at each point. Try that out for Monday.
+  summarize(count=n()) %>%
+  ungroup() %>%
+  mutate(o_count = ifelse(domain_type == "O", count, 0)) %>%
+  mutate(d_count = ifelse(domain_type == "D", count, 0))
 
 YXX %>%
   as_tibble() %>% 
-  ggplot(aes(x = (domain_type == "O"), y = (domain_type == "D"))) +
-  geom_hex(aes(color = count)) 
+  ggplot(aes(x = domain_type == "O", y = domain_type == "D")) +
+  geom_hex(aes(colour = o_count, fill = d_count))
 
+YXX %>%
+  as_tibble() %>%
+  ggplot(aes(x = o_count, y = d_count)) + 
+  geom_hex(aes(colour = domain_type))
 
 #cluster to include sequence ids (since amount of observations seems to be too large)?
 
