@@ -10,18 +10,12 @@ YXX <- data %>%
   summarize(count=n()) %>%
   ungroup() %>%
   spread(domain_type, count) %>%
-  replace_na(0)
+  replace_na(list(D = 0, O = 0))
 
-
-YXX %>%
-  as_tibble() %>% 
-  ggplot(aes(x = domain_type == "O", y = domain_type == "D")) +
-  geom_hex(aes(colour = o_count, fill = d_count))
-
-YXX %>%
+YXX_plot <- YXX %>%
   as_tibble() %>%
-  ggplot(aes(x = o_count, y = d_count)) + 
-  geom_hex(aes(colour = domain_type))
+  ggplot(aes(x = O, y = D)) + 
+  geom_hex()
 
 #cluster to include sequence ids (since amount of observations seems to be too large)?
 
