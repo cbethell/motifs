@@ -9,16 +9,10 @@ YXX <- data %>%
   group_by(sequence_id,domain_type) %>%
   summarize(count=n()) %>%
   ungroup() %>%
-  mutate(o_count = ifelse(domain_type == "O", count, 0)) %>%
-  mutate(d_count = ifelse(domain_type == "D", count, 0))
-  
-## Right now you have *two rows for each sequence ID* - this another reason (currently THE reason) why plotting is weird.
-## You'll need to use the tidyr function "spread" to set up the data for plotting. This function will give you the two x, y columns. 
-## This function is aggravating and nobody gets it right the first time/times, don't be dissuaded!!
-# https://tidyr.tidyverse.org/reference/spread.html
-# https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html
+  spread(domain_type, count) %>%
+  replace_na(0)
 
- 
+
 YXX %>%
   as_tibble() %>% 
   ggplot(aes(x = domain_type == "O", y = domain_type == "D")) +
@@ -27,7 +21,7 @@ YXX %>%
 YXX %>%
   as_tibble() %>%
   ggplot(aes(x = o_count, y = d_count)) + 
-  geom_hex(aes(colour = domain_type)) ## Note: hex is FILL, not color. Also, geom_hex colors for you **automatically** based on # points at the x,y coordinate. This is the purpose of using geom_hex here. Make sure you understand why I've recommended this function, and ask me if you are confused.
+  geom_hex(aes(colour = domain_type))
 
 #cluster to include sequence ids (since amount of observations seems to be too large)?
 
