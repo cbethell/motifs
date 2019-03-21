@@ -2,6 +2,12 @@
 library(tidyverse)
 library(scales)
 data <- read_csv("human_proteome_motifs_across_domains.csv")
+## Notes..
+### Use the "ggsave()" function to plot instead of base R. it works more reliably w/ plots made by ggplot
+### Your full plot is totally fine - it's just an issue of dimensions. Try facet_wrap() where you can specify #rows, columns. Might work better? We'll see. It may be too busy anyways. There may be a better way to visualize about this data.
+### Also note.. some of the motifs here are subsets of the others, i.e. "DLL" is in "XL[LI]". Let's make a faceted plot without some of the duplicates, i.e. you'd exclude DLL but keep the motif that contains it. You should look into this manually, pick the specific ones to keep.
+
+
 
 #focus only on the motif "YXX[LIMFV] and find the number of motifs in each domain type: ordered and disordered for each protein 
 
