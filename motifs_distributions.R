@@ -115,9 +115,9 @@ definite_active_motifs <- data %>%
 ") %>%
   group_by(UNIPROT_ID,domain_type) %>%
   summarize(count=n()) %>%
-  spread(domain_type, count) %>%
+  spread(domain_type, count)%>%
   ggplot(aes(x = O, y = D)) + 
-  geom_hex(bins = 10) 
-  
+  geom_bar(stat = "identity") +
+  geom_text(aes(label=UNIPROT_ID))
 
-# Focus further on these proteins which are specifically involved in forming clathrin-coated pits for endocytosis: AP2A1, AP2A2, AP2B1, AP2S1, AP2M1, AAK1.You can use summarize or tally functions to determine the counts of motifs per structural domain in each of these proteins.
+ggsave(file = "active_endo_motifs.pdf", definite_active_motifs)
