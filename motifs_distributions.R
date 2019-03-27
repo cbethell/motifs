@@ -2,6 +2,7 @@
 library(tidyverse)
 library(scales)
 library(cowplot)
+library(ggrepel)
 data <- read_csv("human_proteome_motifs_across_domains.csv")
 
 #focus only on the motif "YXX[LIMFV] and find the number of motifs in each domain type: ordered and disordered for each protein 
@@ -110,14 +111,22 @@ non_endo_proteins <- data %>%
   group_by(motif_type) %>%
   ungroup()
 
+
 definite_active_motifs <- data %>%
-  filter(UNIPROT_ID == "O95782" | UNIPROT_ID == "O94973" | UNIPROT_ID == "P63010" | UNIPROT_ID == "P53680" | UNIPROT_ID == "Q96CW1" | UNIPROT_ID == "Q2M2I8
-") %>%
-  group_by(UNIPROT_ID,domain_type) %>%
-  summarize(count=n()) %>%
-  spread(domain_type, count)%>%
+  filter(UNIPROT_ID == "O95782" | UNIPROT_ID == "O94973" | UNIPROT_ID == "P63010" | UNIPROT_ID == "P53680" | UNIPROT_ID == "Q96CW1" | UNIPROT_ID == "Q2M2I8") %>%
+  inner_join(endo_data, by = c('UNIPROT_ID')) %>%
+  group_by(UNIPROT_ID,UNIPROT_name,motif_type,domain_type) %>%
+  summarize(count = n()) %>%
+  spread(domain_type, count) %>%
+  replace_na(list(D = 0, O = 0))%>%
+  group_by(motif_type) %>%
+  filter(motif_type != "DLL") %>%
+  filter(motif_type != "LLX") %>%
   ggplot(aes(x = O, y = D)) + 
-  geom_bar(stat = "identity") +
-  geom_text(aes(label=UNIPROT_ID))
+  geom_point(stat = "identity") +
+  geom_text_repel(aes(label=UNIPROT_name)) +
+  facet_wrap(~motif_type, ncol = 2)
 
 ggsave(file = "active_endo_motifs.pdf", definite_active_motifs)
+
+#WEDNESDAY TO DO: facet by specific motif
