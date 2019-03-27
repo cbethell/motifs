@@ -34,13 +34,14 @@ YXX_domain_plot <- YXX %>%
   filter(D > 0) %>%
   filter(O > 0) %>%
   ggplot(aes(x = O, y = D)) + 
-  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks()) +
-  scale_y_continuous("Motif Count in Disordered Regions") +
+  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(), limits=c(0,10)) +
+  scale_y_continuous("Motif Count in Disordered Regions", limits=c(0,18)) +
   labs(title = "Motif Counts where each Domain has at least one") +
-  geom_hex(bins = 10) +
-  stat_binhex(aes(label=..count..), geom="text", bins=10, colour="white") 
+  geom_hex(bins = 15) +
+  geom_abline(color="red") + 
+  stat_binhex(aes(label=..count..), geom="text", bins=15, colour="white", size=3.5) 
 
-ggsave(file = "YXX_domain_plot.pdf", YXX_domain_plot)
+ggsave(file = "YXX_domain_plot.pdf", YXX_domain_plot, width=7, height=6)
 
 #plot showing count of motifs in disordered regions for each motif type
 motif_disordered_plot <- data %>%
@@ -49,9 +50,10 @@ motif_disordered_plot <- data %>%
   spread(domain_type, count) %>%
   replace_na(list(D = 0, O = 0)) %>%
   filter(D > 0, O > 0) %>%
-  group_by(motif_type) %>%
-  filter(motif_type != "DLL") %>%
-  filter(motif_type != "LLX") %>%
+  #group_by(motif_type) %>%
+  filter(motif_type %in% c("NPF")) %>%
+  #filter(motif_type != "DLL") %>%
+  #filter(motif_type != "LLX") %>%
   ggplot(aes(x = motif_type, y = D)) + 
   theme(axis.text.x = element_text(size = 5)) +
   geom_hex(bins = 10) +
