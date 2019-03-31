@@ -1,0 +1,124 @@
+---
+title: "motifs"
+author: "Chante Bethell"
+date: "3/31/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Analysis of Motif Distributions in Regions of Endocytic Proteins
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+##Abstract
+
+A short linear motif (SLiM) is a recurring pattern of approximately three to ten amino acids found in proteins. SLiMs are important for cellular signaling and the regulating of proteins, often times by acting as binding sites for protein-binding domains. While SLiMs exist both in ordered regions of proteins where there is a tertiary structure and in disordered regions where there is no structure, they are primarily functional in disordered regions. An important example of SLiM-mediated processes and the focus of this study is endocytosis. Endocytosis is the process by which cells engulf molecules from the extracellular environment. There are specific motifs that mediate and trigger endocytosis. However, the short length of motifs means that it is easy to overlook those that may be important to biological functions. The goal of this study is to identify previously unrecognized proteins that may be involved in endocytosis by analyzing the distribution of motifs in the ordered and disordered regions of the human proteome. Using a bioinformatics approach, we systematically searched the entire human proteome for motifs known to be involved in endocytosis. We hypothesize that the proteins we find to be enriched with motifs in disordered regions may be functionally important for endocytosis. These proteins will be targeted for experimental validation. 
+
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(scales)
+library(cowplot)
+library(ggrepel)
+data <- read_csv("human_proteome_motifs_across_domains.csv")
+
+filter_count <- function(data, motif) {
+  data %>%
+  group_by(sequence_id,domain_type,motif_type) %>%
+  summarize(count = n()) %>%
+  spread(domain_type, count) %>%
+  replace_na(list(D = 0, O = 0)) %>%
+  arrange(desc(D)) %>%
+  filter(motif_type == !!motif)
+}
+
+filter_plot <- function(data,motif) {
+  data %>%
+  filter(D > 0) %>%
+  ggplot(aes(x = O, y = D)) + 
+  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(), limits=c(0,10)) +
+  scale_y_continuous("Motif Count in Disordered Regions", limits=c(0,18)) +
+  labs(title = paste0("Motif Counts in ",motif," Expression")) +
+  geom_hex(bins = 15) +
+  geom_abline(color="red") + 
+  stat_binhex(aes(label=..count..), geom="text", bins=15, colour="white", size=3.5) 
+}
+
+YXX <- filter_count(data, quo("YXX[LIMFV]"))
+```
+
+##Results
+###Four known endocytic proteins were chosen as follows:
+
+####"YXX[LIMFV]"
+| sequence_id | disordered | ordered | Eukaryotic Linear Motif Resource|
+| ---- |:---:| :---:| :---------------------------------------:|
+| Q9Y4H2  | 17  | 1 | not in database |
+| P35568  | 14  | 0 | not in database |
+| O95487  | 11  | 2 | not in database |
+| P48634  | 10  | 0 | not in database |
+| Q8WXI7  | 10  | 1 | not in database |
+| P00533  | 2   | 1 | responsible for "Receptor tyrosine kinase binding ligands of the EGF (Epidermal Growth Factor) family and activating several signaling cascades to convert extracellular cues into appropriate cellular responses. Catalytic activity regulation of endocytosis and inhibition of the activated EGFR" |
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+filter_plot(YXX, "YXX[LIMFV]")
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+NPF <- filter_count(data, quo("NPF"))
+```
+
+####"NPF"
+| sequence_id | disordered | ordered | Eukaryotic Linear Motif Resource|
+| ---- |:---:| :---:| :---------------------------------------:|
+| Q9H1K0  | 6  | 0 | Rabenosyn-5 "effector protein acting in early endocytic membrane fusion and membrane trafficking of recycling endosomes. Required for endosome fusion either homotypically or with clathrin coated vesicles."|
+| Q8NDI1  | 5  | 0 | EH domain-binding protein 1 "May play a role in actin reorganization. Links clathrin-mediated endocytosis to the actin cytoskeleton. May act as Rab effector protein and play a role in vesicle trafficking." |
+| B5MC86  | 4  | 0 | not in database |
+| P98082  | 4  | 0 | not in database |
+| A0A0D9SGJ6  | 3  | 0 | not in database |
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+filter_plot(NPF, "NPF")
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+XD <- filter_count(data, quo("X[DE]XXXL[LI]")) 
+```
+
+####"X[DE]XXXL[LI]"
+| sequence_id | disordered | ordered | Eukaryotic Linear Motif Resource|
+| ---- |:---:| :---:| :---------------------------------------:|
+| Q07283  | 14  | 1 | not in database |
+| Q8N7P7  | 12  | 0 | not in database |
+| A6NEF3  | 11  | 0 | not in database |
+| Q96JN2  | 11  | 0 | not in database |
+| E7EPM4  | 9  | 0 | not in database |
+| P50895  | 1  | 0 | Basal cell adhesion molecule "may mediate intracellular signaling."|
+| P04233  | 1  | 0 | HLA class II histocompatibility antigen gamma chain "Plays a critical role in MHC class II antigen processing by stabilizing peptide-free class II alpha/beta heterodimers in a complex soon after their synthesis and directing transport of the complex from the endoplasmic reticulum to the endosomal/lysosomal system. "
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+filter_plot(XD, "X[DE]XXXL[LI]")
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+NPXY <- filter_count(data, quo("NPXY"))
+```
+
+####"NPXY"
+| sequence_id | disordered | ordered | Eukaryotic Linear Motif Resource|
+| ---- |:---:| :---:| :---------------------------------------:|
+| E9PFD7  | 3  | 0 | not in database |
+| F5GYU8  | 3  | 0 | not in database |
+| K7EJB9  | 3  | 0 | not in database |
+| K7EL50  | 3  | 0 | not in database |
+| P05067  | 1  | 0 | Amyloid-beta precursor protein "functions as a cell surface receptor and performs physiological functions on the surface of neurons relevant to neurite growth, neuronal adhesion and axonogenesis." |
+| P05556  | 2  | 0 | Integrin beta-1 "recognize the sequence R-G-D in a wide array of ligands. When associated with alpha-7/beta-1 integrin, regulates cell adhesion and laminin matrix deposition. Involved in promoting endothelial cell motility and angiogenesis. May be involved in up-regulation of the activity of kinases such as PKC via binding to KRT1.Plays a mechanistic adhesive role during telophase, required for the successful completion of cytokinesis."|
+| Q07954  | 1  | 0 | Prolow-density lipoprotein receptor-related protein 1 is an "Endocytic receptor involved in endocytosis and in phagocytosis of apoptotic cells. Required for early embryonic development. Involved in cellular lipid homeostasis."
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+filter_plot(XD, "X[DE]XXXL[LI]")
+```

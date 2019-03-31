@@ -7,41 +7,57 @@ data <- read_csv("human_proteome_motifs_across_domains.csv")
 
 #focus only on the motif "YXX[LIMFV] and find the number of motifs in each domain type: ordered and disordered for each protein 
 
-YXX <- data %>% 
-  filter(motif_type == "YXX[LIMFV]") %>%
-  group_by(sequence_id,domain_type) %>%
-  summarize(count=n()) %>%
-  ungroup() %>%
+#function to filter and count the number of motifs in the regions of each motif expression
+filter_count <- function(data, motif) {
+  data %>%
+  group_by(sequence_id,domain_type,motif_type) %>%
+  summarize(count = n()) %>%
   spread(domain_type, count) %>%
-  replace_na(list(D = 0, O = 0)) %>%
-  mutate(sum = D + O)
+  replace_na(list(D = 0, O = 0)) %>% 
+  arrange(desc(D)) %>%
+  filter(motif_type == !!motif)
+}
 
-#heatmap of atleast one motif in the ordered or disordered region 
-YXX_general_plot <- YXX %>%
-  filter(sum > 0) %>%
-  ggplot(aes(x = O, y = D)) + 
-  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks()) +
-  scale_y_continuous("Motif Count in Disordered Regions") +
-  labs(title = "Motif Counts") +
-  geom_hex(bins = 10) +
-  stat_binhex(aes(label=..count..), geom="text", bins=10, colour="white")
-
-ggsave(file = "YXX_general_plot.pdf", YXX_general_plot)
-
-
-#heatmap of atleast one motif in each domain 
-YXX_domain_plot <- YXX %>%
+#function to plot the counts in the regions of each motif expression
+filter_plot <- function(data,motif) {
+  data %>%
   filter(D > 0) %>%
-  filter(O > 0) %>%
   ggplot(aes(x = O, y = D)) + 
   scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(), limits=c(0,10)) +
   scale_y_continuous("Motif Count in Disordered Regions", limits=c(0,18)) +
-  labs(title = "Motif Counts where each Domain has at least one") +
+  labs(title = paste0("Motif Counts in ",motif," Expression")) +
   geom_hex(bins = 15) +
   geom_abline(color="red") + 
   stat_binhex(aes(label=..count..), geom="text", bins=15, colour="white", size=3.5) 
+}
+#filter for YXX[LIMFV] motif expression
+YXX <- filter_count(data, quo("YXX[LIMFV]"))
 
-ggsave(file = "YXX_domain_plot.pdf", YXX_domain_plot, width=7, height=6)
+#heatmap of atleast one motif in the disordered region of YXX[LIMFV]
+YXX_domain_plot <- filter_plot(YXX, "YXX[LIMFV]")
+ggsave(file = "YXX_plot.pdf", YXX_domain_plot, width=7, height=6)
+
+
+#filter for NPF motif expression
+NPF <- filter_count(data, quo("NPF"))
+
+#heatmap of atleast one motif in the disordered region of NPF
+NPF_domain_plot <- filter_plot(NPF, "NPF")
+ggsave(file = "NPF_plot.pdf", NPF_domain_plot, width=7, height=6)
+
+#filter for X[DE]XXXL[LI] motif expression
+XD <- filter_count(data, quo("X[DE]XXXL[LI]")) 
+
+#heatmap of atleast one motif in the disordered region of X[DE]XXXL[LI]
+XD_domain_plot <- filter_plot(XD, "X[DE]XXXL[LI]")
+ggsave(file = "XD_plot.pdf", XD_domain_plot, width=7, height=6)
+
+#filter for NPXY motif expression
+NPXY <- filter_count(data, quo("NPXY"))
+
+#heatmap of atleast one motif in the disordered region of NPXY
+NPXY_domain_plot <- filter_plot(NPXY, "NPXY")
+ggsave(file = "NPXY_plot.pdf", NPXY_domain_plot, width=7, height=6)
 
 #plot showing count of motifs in disordered regions for each motif type
 motif_disordered_plot <- data %>%
@@ -49,14 +65,13 @@ motif_disordered_plot <- data %>%
   summarize(count = n()) %>%
   spread(domain_type, count) %>%
   replace_na(list(D = 0, O = 0)) %>%
-  filter(D > 0, O > 0) %>%
-  #group_by(motif_type) %>%
-  filter(motif_type %in% c("NPF")) %>%
-  #filter(motif_type != "DLL") %>%
-  #filter(motif_type != "LLX") %>%
+  filter(D > 0) %>%
+  filter(motif_type %in% c("NPF","NPXY","X[DE]XXXL[LI]","YXX[LIMFV]")) %>%
   ggplot(aes(x = motif_type, y = D)) + 
-  theme(axis.text.x = element_text(size = 5)) +
-  geom_hex(bins = 10) +
+  ylim(0,18) +
+  labs(title = ("Motif Counts in the Disordered Regions of each Motif Expression")) +
+  theme(axis.text.x = element_text(size = 5),plot.title = element_text(size = 8)) +
+  geom_hex(bins = 10,aes(colour = factor(motif_type))) +
   stat_binhex(aes(label=..count..), geom="text", bins=10, colour="white",size = 3)
 
 ggsave(file = "motif_disordered_plot.pdf", motif_disordered_plot)
@@ -67,20 +82,20 @@ motif_ordered_plot <- data %>%
   summarize(count = n()) %>%
   spread(domain_type, count) %>%
   replace_na(list(D = 0, O = 0)) %>%
-  filter(D > 0, O > 0) %>%
+  filter(D > 0) %>%
   group_by(motif_type) %>%
-  filter(motif_type != "DLL") %>%
-  filter(motif_type != "LLX") %>%
+  filter(motif_type %in% c("NPF","NPXY","X[DE]XXXL[LI]","YXX[LIMFV]")) %>%
   ggplot(aes(x = motif_type, y = O)) + 
-  theme(axis.text.x = element_text(size = 5)) +
-  geom_hex(bins = 10) +
-  stat_binhex(aes(label=..count..), geom="text", bins=10, colour="white",size = 2.5)
+  labs(title = ("Motif Counts in the Ordered Regions of each Motif Expression")) +
+  theme(axis.text.x = element_text(size = 5),plot.title = element_text(size = 8)) +
+  geom_hex(bins = 10,aes(colour = factor(motif_type))) +
+  stat_binhex(aes(label=..count..), geom="text", bins=10, colour="white",size = 3)
 
 ggsave(file = "motif_ordered_plot.pdf", motif_ordered_plot)
 
 #cowplot to compare the disordered and ordered plots
 combined_domain_plot <- plot_grid(motif_disordered_plot, motif_ordered_plot, labels = "auto")
-ggsave(file = "combined_domain_plot.pdf", combined_domain_plot)
+ggsave(file = "combined_domain_plot.pdf", combined_domain_plot, width = 10)
 
 #read in endocytosis protein data
 endo_data <- read_csv("endocytosis_involved_proteins.csv")
@@ -95,8 +110,10 @@ endo_proteins <- endo_data %>%
   summarize(count = n()) %>%
   spread(domain_type, count) %>%
   replace_na(list(D = 0, O = 0)) %>%
-  filter(D > 0, O > 0) %>%
+  filter(D > 0) %>%
   group_by(motif_type) %>%
+  filter(motif_type %in% c("NPF","NPXY","X[DE]XXXL[LI]","YXX[LIMFV]")) %>%
+  arrange(desc(D)) %>%
   ungroup()
   
 
@@ -111,6 +128,8 @@ non_endo_proteins <- data %>%
   replace_na(list(D = 0, O = 0)) %>%
   filter(D > 0, O > 0) %>%
   group_by(motif_type) %>%
+  filter(motif_type %in% c("NPF","NPXY","X[DE]XXXL[LI]","YXX[LIMFV]")) %>%
+  arrange(desc(D)) %>%
   ungroup()
 
 
@@ -122,13 +141,12 @@ definite_active_motifs <- data %>%
   spread(domain_type, count) %>%
   replace_na(list(D = 0, O = 0))%>%
   group_by(motif_type) %>%
-  filter(motif_type != "DLL") %>%
-  filter(motif_type != "LLX") %>%
+  filter(motif_type %in% c("NPF","X[DE]XXXL[LI]","YXX[LIMFV]", "NPXY")) %>%
   ggplot(aes(x = O, y = D)) + 
   geom_point(stat = "identity") +
   geom_text_repel(aes(label=UNIPROT_name)) +
-  facet_wrap(~motif_type, ncol = 2)
+  facet_wrap(~motif_type, nrow = 3)
 
 ggsave(file = "active_endo_motifs.pdf", definite_active_motifs)
 
-#WEDNESDAY TO DO: facet by specific motif
+
