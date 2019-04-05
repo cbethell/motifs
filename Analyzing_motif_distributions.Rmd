@@ -1,7 +1,8 @@
 ---
-title: "motifs"
+title: "Analysis of Motif Distributions in Regions of Endocytic Proteins"
 author: "Chante Bethell"
-date: "3/31/2019"
+subtitle: "Rowan University RUSSS Symposium"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 output: html_document
 ---
 
@@ -9,21 +10,12 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Analysis of Motif Distributions in Regions of Endocytic Proteins
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-##Abstract
-
-A short linear motif (SLiM) is a recurring pattern of approximately three to ten amino acids found in proteins. SLiMs are important for cellular signaling and the regulating of proteins, often times by acting as binding sites for protein-binding domains. While SLiMs exist both in ordered regions of proteins where there is a tertiary structure and in disordered regions where there is no structure, they are primarily functional in disordered regions. An important example of SLiM-mediated processes and the focus of this study is endocytosis. Endocytosis is the process by which cells engulf molecules from the extracellular environment. There are specific motifs that mediate and trigger endocytosis. However, the short length of motifs means that it is easy to overlook those that may be important to biological functions. The goal of this study is to identify previously unrecognized proteins that may be involved in endocytosis by analyzing the distribution of motifs in the ordered and disordered regions of the human proteome. Using a bioinformatics approach, we systematically searched the entire human proteome for motifs known to be involved in endocytosis. We hypothesize that the proteins we find to be enriched with motifs in disordered regions may be functionally important for endocytosis. These proteins will be targeted for experimental validation. 
-
-
-
 ```{r, include=FALSE}
 library(tidyverse)
 library(scales)
 library(cowplot)
 library(ggrepel)
+library(ggpubr)
 data <- read_csv("human_proteome_motifs_across_domains.csv")
 
 filter_count <- function(data, motif) {
@@ -36,89 +28,159 @@ filter_count <- function(data, motif) {
   filter(motif_type == !!motif)
 }
 
-filter_plot <- function(data,motif) {
+filter_plot <- function(data,motif,number,numx,numy) {
   data %>%
   filter(D > 0) %>%
   ggplot(aes(x = O, y = D)) + 
-  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(), limits=c(0,10)) +
-  scale_y_continuous("Motif Count in Disordered Regions", limits=c(0,18)) +
-  labs(title = paste0("Motif Counts in ",motif," Expression")) +
-  geom_hex(bins = 15) +
+  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(n = numx), limits=c(0,10)) +
+  scale_y_continuous("Motif Count in Disordered Regions", breaks = pretty_breaks(n = numy), limits=c(0,18)) +
+  labs(title = paste0(motif, " motif counts in protein regions")) +
+  geom_hex(bins = number) +
   geom_abline(color="red") + 
-  stat_binhex(aes(label=..count..), geom="text", bins=15, colour="white", size=3.5) 
+  stat_binhex(aes(label=..count..), geom="text", bins=number, colour="white", size=3.5) +
+  scale_fill_gradientn(colours=c("red","black"),name = "Frequency",na.value=NA) +
+  grids(linetype = "dashed")
 }
 
 YXX <- filter_count(data, quo("YXX[LIMFV]"))
 ```
 
-##Results
-###Four known endocytic proteins were chosen as follows:
+## Abstract
 
-####"YXX[LIMFV]"
-| sequence_id | disordered | ordered | Eukaryotic Linear Motif Resource|
-| ---- |:---:| :---:| :---------------------------------------:|
-| Q9Y4H2  | 17  | 1 | not in database |
-| P35568  | 14  | 0 | not in database |
-| O95487  | 11  | 2 | not in database |
-| P48634  | 10  | 0 | not in database |
-| Q8WXI7  | 10  | 1 | not in database |
-| P00533  | 2   | 1 | responsible for "Receptor tyrosine kinase binding ligands of the EGF (Epidermal Growth Factor) family and activating several signaling cascades to convert extracellular cues into appropriate cellular responses. Catalytic activity regulation of endocytosis and inhibition of the activated EGFR" |
+A short linear motif (SLiM) is a recurring pattern of approximately three to ten amino acids found in proteins. SLiMs are important for cellular signaling and the regulating of proteins, often times by acting as binding sites for protein-binding domains. While SLiMs exist both in ordered regions of proteins where there is a tertiary structure and in disordered regions where there is no structure, they are primarily functional in disordered regions. An important example of SLiM-mediated processes and the focus of this study is endocytosis. Endocytosis is the process by which cells engulf molecules from the extracellular environment. There are specific motifs that mediate and trigger endocytosis. However, the short length of motifs means that it is easy to overlook those that may be important to biological functions. The goal of this study is to identify previously unrecognized proteins that may be involved in endocytosis by analyzing the distribution of motifs in the ordered and disordered regions of the human proteome. Using a bioinformatics approach, we systematically searched the entire human proteome for motifs known to be involved in endocytosis. We hypothesize that the proteins we find to be enriched with motifs in disordered regions may be functionally important for endocytosis. These proteins will be targeted for experimental validation. 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-filter_plot(YXX, "YXX[LIMFV]")
+## Introduction
+
+We chose to focus on the motifs within five proteins which are specifically involved in forming clathrin-coated pits for cargo intake in endocytosis: AP2A1, AP2A2, AP2B1, AP2S1, AP2M1, AAK1. According to Koscielny et al., these are, respectively, the 5 subunits of the AP2 protein which triggers clathrin coated pit formation for the binding of cargo, plasma membrane, clathrin, and other accessory proteins (2). While AAK1 is the AP2 associated kinase which phosphorylates this clathrin-mediated endocytosis (1). The named proteins can be found in Table 1, along with their known function (obtained from the Eukaryotic Linear Motif database) and instances these proteins appear in four motifs that have also been determined to be involved in endocytosis (4). In the Results section, we further show other proteins that we have found to be enriched in motif count in the disordered regions. Each table in this section is headed by the specific motif the table focuses on and has four columns to represent the following:
+
+i. The UNIPROT accession ID for each protein enriched in the number of specified motifs in the disordered region
+ii. The ratio of motif counts in the disordered versus ordered regions
+iii. Whether or not the protein has been validated and recorded in the Eukaryoitic Linear Motif Database (4). 
+
+The plot following each table represents a heatmap of proteins organized by the distribution of specific motifs in the disordered and ordered regions. The motifs specified were chosen based on their known acitivity in endocytosis, validated by Pandey as follows: X[DE]XXXL[LI], YXX[LIMFV], NPXY, and NPF (3). Each hexagon on the heatmap is labeled with a white number representing the number of proteins that have the same number of motif instances in the ordered and disordered regions, while the red line is a one to one line used to determine which proteins are enriched in the disordered regions and should be targeted based on our hypothesis. Proteins found most above the red line are those that we want to target. 
+
+|UNIPROT Protein Name (ID)| Function | Known Active Motif | Motif Count (Disordered/Ordered) |
+| ------------ |:-------------------:| :--------:| :--------------------------:|
+|AP2A1 (O95782) |  | X[DE]XXXL[LI] | 0/6 |
+|AP2A1 (O95782)|  | YXX[LIMFV] | 0/6 |
+|AP2A2 (O94973)|  | X[DE]XXXL[LI] | 0/3 |
+|AP2A2 (O94973)|  | YXX[LIMFV] | 0/3 |
+|AP2B1 (P63010)| binds to the clathrin heavy chain to promote lattice assembly (in cattle)| X[DE]XXXL[LI] | 0/6 |
+|AP2B1 (P63010)| binds to the clathrin heavy chain to promote lattice assembly (in cattle)| YXX[LIMFV] | 0/6 |
+|AP2M1 (Q96CW1)|  | X[DE]XXXL[LI] | 0/4 |
+|AP2M1 (Q96CW1)|  | YXX[LIMFV] | 0/4 |
+|AP2S1 (P53680)|  | YXX[LIMFV] | 0/12 |
+|AAK1  (Q2M2I8)|  | NPF | 4/0 |
+|AAK1  (Q2M2I8)|  | X[DE]XXXL[LI] | 8/0 |
+|AAK1  (Q2M2I8)|  | YXX[LIMFV] | 0/4
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+endo_data <- read_csv("endocytosis_involved_proteins.csv")
+data <- rename(data, UNIPROT_ID = sequence_id)
+data %>%
+  filter(UNIPROT_ID == "O95782" | UNIPROT_ID == "O94973" | UNIPROT_ID == "P63010" | UNIPROT_ID == "P53680" | UNIPROT_ID == "Q96CW1" | UNIPROT_ID == "Q2M2I8") %>%
+  inner_join(endo_data, by = c('UNIPROT_ID')) %>%
+  group_by(UNIPROT_ID,UNIPROT_name,motif_type,domain_type) %>%
+  summarize(count = n()) %>%
+  spread(domain_type, count) %>%
+  replace_na(list(D = 0, O = 0))%>%
+  filter(motif_type %in% c("NPF","X[DE]XXXL[LI]","YXX[LIMFV]", "NPXY")) %>%
+  ggplot(aes(x = O, y = D)) + 
+  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks()) +
+  scale_y_continuous("Motif Count in Disordered Regions", breaks = pretty_breaks()) +
+  geom_point(stat = "identity") +
+  geom_abline(color="red") + 
+  geom_text_repel(aes(label=UNIPROT_name)) +
+  facet_wrap(~motif_type, ncol = 2)
+  
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+This plot shows the proteins and their motif count ratios in the specified motifs known to be involved in endocytosis. It shows that the proteins we determined to be active in endocytosis are enriched in motif count in the ordered regions, with the exception of the AAK1 protein kinase which is enriched in motif count in the disordered regions for the NPF and X[DE]XXXL[LI] motifs. 
+
+## Results
+
+### Four motifs known to be active in endocytosis were chosen for closer study as follows:
+
+#### "YXX[LIMFV]"
+| UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Found in Eukaryotic Linear Motif Database|
+| ------- |:--------:| :--------:| :---------------------------------------:|
+| Q9Y4H2  | 17  | 1 | no |
+| P35568  | 14  | 0 | no |
+| O95487  | 11  | 2 | no |
+| Q8WXI7  | 10  | 1 | no |
+| B5MCU0  | 9  | 1 | no |
+| H7C0E9  | 9  | 1 | no |
+| P00533  | 2   | 1 | yes, in Epidermal Growth Factor Receptor |
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+data <- rename(data, sequence_id = UNIPROT_ID)
+filter_plot(YXX, "YXX[LIMFV]", 15, 10, 18)
+```
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
 NPF <- filter_count(data, quo("NPF"))
 ```
 
-####"NPF"
-| sequence_id | disordered | ordered | Eukaryotic Linear Motif Resource|
-| ---- |:---:| :---:| :---------------------------------------:|
-| Q9H1K0  | 6  | 0 | Rabenosyn-5 "effector protein acting in early endocytic membrane fusion and membrane trafficking of recycling endosomes. Required for endosome fusion either homotypically or with clathrin coated vesicles."|
-| Q8NDI1  | 5  | 0 | EH domain-binding protein 1 "May play a role in actin reorganization. Links clathrin-mediated endocytosis to the actin cytoskeleton. May act as Rab effector protein and play a role in vesicle trafficking." |
-| B5MC86  | 4  | 0 | not in database |
-| P98082  | 4  | 0 | not in database |
-| A0A0D9SGJ6  | 3  | 0 | not in database |
+#### "NPF"
+| UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Found in Eukaryotic Linear Motif Database|
+| ------- |:--------:| :--------:| :---------------------------------------:|
+| Q9H1K0  | 6  | 0 | yes, in Rabenosyn-5 which is an effector protein that plays a role in early endocytic membrane fusion |
+| Q8NDI1  | 5  | 0 | yes, in EH domain-binding protein 1 which links clathrin-mediated endocytosis to the actin cytoskeleton |
+| B5MC86  | 4  | 0 | no |
+| P98082  | 4  | 0 | no |
+| A0A0D9SGJ6  | 3  | 0 | no |
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-filter_plot(NPF, "NPF")
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+filter_plot(NPF, "NPF", 15, 10, 18)
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
 XD <- filter_count(data, quo("X[DE]XXXL[LI]")) 
 ```
 
-####"X[DE]XXXL[LI]"
-| sequence_id | disordered | ordered | Eukaryotic Linear Motif Resource|
-| ---- |:---:| :---:| :---------------------------------------:|
-| Q07283  | 14  | 1 | not in database |
-| Q8N7P7  | 12  | 0 | not in database |
-| A6NEF3  | 11  | 0 | not in database |
-| Q96JN2  | 11  | 0 | not in database |
-| E7EPM4  | 9  | 0 | not in database |
-| P50895  | 1  | 0 | Basal cell adhesion molecule "may mediate intracellular signaling."|
-| P04233  | 1  | 0 | HLA class II histocompatibility antigen gamma chain "Plays a critical role in MHC class II antigen processing by stabilizing peptide-free class II alpha/beta heterodimers in a complex soon after their synthesis and directing transport of the complex from the endoplasmic reticulum to the endosomal/lysosomal system. "
+#### "X[DE]XXXL[LI]"
+| UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Found in Eukaryotic Linear Motif Database|
+| ------- |:--------:| :--------:| :---------------------------------------:|
+| Q07283  | 14  | 1 | no |
+| Q8N7P7  | 12  | 0 | no |
+| A6NEF3  | 11  | 0 | no |
+| E7EPM4  | 9  | 0 | no |
+| A6NC98  | 5  | 1 | no |
+| P09693  | 1  | 1 | yes, in T-cell surface glycoprotein CD3 gamma chain 
+| P50895  | 1  | 0 | yes, in Basal cell adhesion molecule|
+| P04233  | 1  | 0 | yes, in HLA class II histocompatibility antigen gamma chain |
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-filter_plot(XD, "X[DE]XXXL[LI]")
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+filter_plot(XD, "X[DE]XXXL[LI]", 15, 10, 18)
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
 NPXY <- filter_count(data, quo("NPXY"))
 ```
 
-####"NPXY"
-| sequence_id | disordered | ordered | Eukaryotic Linear Motif Resource|
-| ---- |:---:| :---:| :---------------------------------------:|
-| E9PFD7  | 3  | 0 | not in database |
-| F5GYU8  | 3  | 0 | not in database |
-| K7EJB9  | 3  | 0 | not in database |
-| K7EL50  | 3  | 0 | not in database |
-| P05067  | 1  | 0 | Amyloid-beta precursor protein "functions as a cell surface receptor and performs physiological functions on the surface of neurons relevant to neurite growth, neuronal adhesion and axonogenesis." |
-| P05556  | 2  | 0 | Integrin beta-1 "recognize the sequence R-G-D in a wide array of ligands. When associated with alpha-7/beta-1 integrin, regulates cell adhesion and laminin matrix deposition. Involved in promoting endothelial cell motility and angiogenesis. May be involved in up-regulation of the activity of kinases such as PKC via binding to KRT1.Plays a mechanistic adhesive role during telophase, required for the successful completion of cytokinesis."|
-| Q07954  | 1  | 0 | Prolow-density lipoprotein receptor-related protein 1 is an "Endocytic receptor involved in endocytosis and in phagocytosis of apoptotic cells. Required for early embryonic development. Involved in cellular lipid homeostasis."
+#### "NPXY"
+| UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Found in Eukaryotic Linear Motif Database|
+| ------- |:--------:| :--------:| :---------------------------------------:|
+| E9PFD7  | 3  | 0 | no |
+| F5GYU8  | 3  | 0 | no |
+| K7EJB9  | 3  | 0 | no |
+| K7EL50  | 3  | 0 | no |
+| P05067  | 1  | 0 | yes, in Amyloid-beta precursor protein |
+| P05556  | 2  | 0 | yes, in Integrin beta-1 |
+| Q07954  | 1  | 0 | yes, in Prolow-density lipoprotein receptor-related protein 1 which is an endocytic receptor |
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-filter_plot(XD, "X[DE]XXXL[LI]")
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+filter_plot(XD, "NPXY", 15, 10, 18)
 ```
+
+## Conclusion 
+
+Our results are not significant enough to prove our hypothesis to be correct. The distribution of motifs in the disordered regions compared to the ordered regions are not always enriched in endocytic proteins as displayed in the first table and plot with the details of the known AP2 complex adaptor proteins and their associated protein kinase, AAK1. In fact, the known endocytic proteins look to be enriched in motif counts in the ordered regions, with exception of AAK1. To our surprise, the functions of the known endocytic proteins were not found in the Eukaryotic Linear Motif database. However, our literature confirms their involvement in clathrin-mediated endocytosis. 
+
+## References
+
+
+1. Conner, S. D., & Schmid, S. L. (2002). Identification of an adaptor-associated kinase, AAK1, as a regulator of clathrin-mediated endocytosis. The Journal of Cell Biology, 156(5), 921-929. doi:10.1083/jcb.200108123
+2. Koscielny, A., Malik, A. R., Liszewska, E., Zmorzynska, J., Tempes, A., Tarkowski, B., & Jaworski, J. (2017). Adaptor Complex 2 Controls Dendrite Morphology via mTOR-Dependent Expression of GluA2. Molecular neurobiology, 55(2), 1590–1606. doi:10.1007/s12035-017-0436-3
+3. Pandey, K. N. (2010). Small peptide recognition sequence for intracellular sorting. Current Opinion in Biotechnology, 21(5), 611-620. doi:10.1016/j.copbio.2010.08.007
+4. Welcome to the Eukaryotic Linear Motif (ELM) resource. (n.d.). Retrieved from http://elm.eu.org/

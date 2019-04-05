@@ -141,11 +141,7 @@ definite_active_motifs <- data %>%
   spread(domain_type, count) %>%
   replace_na(list(D = 0, O = 0))%>%
   group_by(motif_type) %>%
-  filter(motif_type %in% c("NPF","X[DE]XXXL[LI]","YXX[LIMFV]", "NPXY")) %>%
-  ggplot(aes(x = O, y = D)) + 
-  geom_point(stat = "identity") +
-  geom_text_repel(aes(label=UNIPROT_name)) +
-  facet_wrap(~motif_type, nrow = 3)
+  filter(motif_type %in% c("NPF","X[DE]XXXL[LI]","YXX[LIMFV]", "NPXY")) 
 
 ggsave(file = "active_endo_motifs.pdf", definite_active_motifs)
 
