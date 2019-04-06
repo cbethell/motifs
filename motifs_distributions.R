@@ -146,3 +146,18 @@ definite_active_motifs <- data %>%
 ggsave(file = "active_endo_motifs.pdf", definite_active_motifs)
 
 
+NPF_count <- non_endo_proteins %>%
+  filter(motif_type == "NPF")
+NPF_sum <- sum(NPF_count$`D > O` == TRUE)
+
+YXX_count <- YXX %>%
+  count(D > O)
+YXX_sum <- sum(YXX_count$`D > O` == TRUE)
+
+NPXY_count <- NPXY %>%
+  count (D > O)
+NPXY_sum <- sum(NPXY_count$`D > O` == TRUE)
+
+XD_count <- XD %>%
+  count (D > O)
+XD_sum <- sum(XD_count$`D > O` == TRUE)
