@@ -99,15 +99,15 @@ This plot shows the proteins and their motif count ratios in the specified motif
 
 ## Results
 
-### Four motifs known to be active in endocytosis were chosen for closer study as follows:
+#### Four motifs known to be active in endocytosis were chosen for closer study as follows:
 
-#### "YXX[LIMFV]" plot
+### "YXX[LIMFV]" plot
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 data <- rename(data, sequence_id = UNIPROT_ID)
 filter_plot(YXX, "YXX[LIMFV]", 15, 10, 18)
 ```
 
-#### "YXX[LIMFV]" table
+### "YXX[LIMFV]" table
 | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Found in Eukaryotic Linear Motif Database in YXX[LIMFV] motif|
 | ------- |:--------:| :--------:| :---------------------------------------:|
 | Q9Y4H2  | 17  | 1 | no |
@@ -117,44 +117,44 @@ filter_plot(YXX, "YXX[LIMFV]", 15, 10, 18)
 | B5MCU0  | 9  | 1 | no |
 | H7C0E9  | 9  | 1 | no |
 | P00533  | 2   | 1 | yes, in Epidermal Growth Factor Receptor |
-| P02786  | 0  | 1  | yes, in Transferrin receptor protein 1 which assists the cellular uptake of iron via receptor-mediated endocytosis
+| P02786  | 0  | 1  | yes, in Transferrin receptor protein 1 which assists the cellular uptake of iron via receptor-mediated endocytosis*
 | P11279  | 0  | 1  | yes, in Lysosome-associated membrane glycoprotein 1
 
 
 
-#### "NPF" plot
+### "NPF" plot
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 NPF <- filter_count(data, quo("NPF"))
 filter_plot(NPF, "NPF", 12, 3, 5)
 ```
 
-#### "NPF" table
+### "NPF" table
 | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Found in Eukaryotic Linear Motif Database in NPF motif|
 | ------- |:--------:| :--------:| :---------------------------------------:|
-| Q9H1K0  | 6  | 0 | yes, in Rabenosyn-5 which is an effector protein that plays a role in early endocytic membrane fusion |
-| Q8NDI1  | 5  | 0 | yes, in EH domain-binding protein 1 which links clathrin-mediated endocytosis to the actin cytoskeleton |
+| Q9H1K0  | 6  | 0 | yes, in Rabenosyn-5 which is an effector protein that plays a role in early endocytic membrane fusion* |
+| Q8NDI1  | 5  | 0 | yes, in EH domain-binding protein 1 which links clathrin-mediated endocytosis to the actin cytoskeleton* |
 | B5MC86  | 4  | 0 | no |
 | P98082  | 4  | 0 | no |
 | A0A0D9SGJ6  | 3  | 0 | no |
-| O43426  | 4  | 0 | yes, in Synaptojanin-1 which plays a role in clathrin-mediated endocytosis
-| Q9Y6I3  | 3  | 0 | yes, in Epsin-1 which assists in the formation of the clathrin-coated pit for endocytosis
-| Q04206 | 1  | 0  | yes, in Transcription factor p65
-| Q13492 | 1  | 0  | yes, in Phosphatidylinositol-binding clathrin assembly protein
-| Q8WXE9 | 2  | 0  | yes, in Stonin-2 which is involved in endocytic machinery, possibly assisting in clathrin-coated vesicle uncoating
-| O95208 | 3  | 0  | yes, in Epsin-2 which plays a role in the formation of clathrin-coated pit
-| Q9Y6R0 | 1  | 0  | yes, in Numb-like protein
-| P49757 | 1  | 0  | yes, in Protein numb homolog
-| O95081 | 3  | 0  | yes, in Arf-GAP domain and FG repeat-containing protein 2
-| P52594 | 3  | 0  | yes, in Arf-GAP domain and FG repeat-containing protein 1
+| O43426  | 4  | 0 | yes, in Synaptojanin-1 which plays a role in clathrin-mediated endocytosis* |
+| Q9Y6I3  | 3  | 0 | yes, in Epsin-1 which assists in the formation of the clathrin-coated pit for endocytosis* |
+| Q04206 | 1  | 0  | yes, in Transcription factor p65 |
+| Q13492 | 1  | 0  | yes, in Phosphatidylinositol-binding clathrin assembly protein* |
+| Q8WXE9 | 2  | 0  | yes, in Stonin-2 which is involved in endocytic machinery, possibly assisting in clathrin-coated vesicle uncoating* |
+| O95208 | 3  | 0  | yes, in Epsin-2 which plays a role in the formation of clathrin-coated pit* |
+| Q9Y6R0 | 1  | 0  | yes, in Numb-like protein |
+| P49757 | 1  | 0  | yes, in Protein numb homolog |
+| O95081 | 3  | 0  | yes, in Arf-GAP domain and FG repeat-containing protein 2 |
+| P52594 | 3  | 0  | yes, in Arf-GAP domain and FG repeat-containing protein 1 |
 
 
-#### "X[DE]XXXL[LI]" plot
+### "X[DE]XXXL[LI]" plot
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 XD <- filter_count(data, quo("X[DE]XXXL[LI]")) 
 filter_plot(XD, "X[DE]XXXL[LI]", 15, 10, 18)
 ```
 
-#### "X[DE]XXXL[LI]" table
+### "X[DE]XXXL[LI]" table
 | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Found in Eukaryotic Linear Motif Database in X[DE]XXXL[LI] motif|
 | ------- |:--------:| :--------:| :---------------------------------------:|
 | Q07283  | 14  | 1 | no |
@@ -162,22 +162,22 @@ filter_plot(XD, "X[DE]XXXL[LI]", 15, 10, 18)
 | A6NEF3  | 11  | 0 | no |
 | E7EPM4  | 9  | 0 | no |
 | A6NC98  | 5  | 1 | no |
-| P09693  | 1  | 1 | yes, in T-cell surface glycoprotein CD3 gamma chain 
-| P50895  | 1  | 0 | yes, in Basal cell adhesion molecule|
+| P09693  | 1  | 1 | yes, in T-cell surface glycoprotein CD3 gamma chain | 
+| P50895  | 1  | 0 | yes, in Basal cell adhesion molecule |
 | P04233  | 1  | 0 | yes, in HLA class II histocompatibility antigen gamma chain |
-| P01730  | 0  | 1 | yes, in T-cell surface glycoprotein CD4
-| O15118  | 1  | 0 | yes, in NPC intracellular cholesterol transporter 1
+| P01730  | 0  | 1 | yes, in T-cell surface glycoprotein CD4 |
+| O15118  | 1  | 0 | yes, in NPC intracellular cholesterol transporter 1 |
 
 
 
-#### "NPXY" plot 
+### "NPXY" plot 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 NPXY <- filter_count(data, quo("NPXY"))
 filter_plot(NPXY, "NPXY", 15, 10, 18)
 ```
 
-#### "NPXY" table
+### "NPXY" table
 | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Found in Eukaryotic Linear Motif Database in NPXY motif|
 | ------- |:--------:| :--------:| :---------------------------------------:|
 | E9PFD7  | 3  | 0 | no |
@@ -186,19 +186,19 @@ filter_plot(NPXY, "NPXY", 15, 10, 18)
 | K7EL50  | 3  | 0 | no |
 | P05067  | 1  | 0 | yes, in Amyloid-beta precursor protein |
 | P05556  | 2  | 0 | yes, in Integrin beta-1 |
-| Q07954  | 1  | 0 | yes, in Prolow-density lipoprotein receptor-related protein 1 which is an endocytic receptor |
-| P05106  | 1  | 0 | yes, in Integrin beta-3
-| Q9NY15  | 1  | 0 | yes, in Stabilin-1
-| Q8TBB1  | 1  | 0 | yes, in E3 ubiquitin-protein ligase LNX
-| Q14114  | 1  | 0 | yes, in Low-density lipoprotein receptor-related protein 8 which may function as an endocytic receptor
-| P05106  | 1  | 0 | yes, in Integrin beta-3
-| P26010  | 1  | 0 | yes, in Integrin beta-7
+| Q07954  | 1  | 0 | yes, in Prolow-density lipoprotein receptor-related protein 1 which is an endocytic receptor* |
+| P05106  | 1  | 0 | yes, in Integrin beta-3 |
+| Q9NY15  | 1  | 0 | yes, in Stabilin-1 |
+| Q8TBB1  | 1  | 0 | yes, in E3 ubiquitin-protein ligase LNX |
+| Q14114  | 1  | 0 | yes, in Low-density lipoprotein receptor-related protein 8 which may function as an endocytic receptor* |
+| P05106  | 1  | 0 | yes, in Integrin beta-3 |
+| P26010  | 1  | 0 | yes, in Integrin beta-7 |
 
 
 
 ## Conclusion 
 
-Results do not support the hypothesis. The distribution of motifs in the disordered regions compared to the ordered regions are not always enriched in endocytic proteins as displayed in the first table and plot with the details of the known AP2 complex adaptor proteins and their associated protein kinase, AAK1. In fact, the known endocytic proteins look to be enriched in motif counts in the ordered regions, with exception of AAK1. To our surprise, the functions of the known endocytic proteins were not found in the Eukaryotic Linear Motif database. However, the literature confirms their involvement in clathrin-mediated endocytosis. Furthermore, the results for each endocytic motif differs. For "YXX[LIMFV]", 12969 proteins were found to be enriched in the disordered region and only 1 of these recorded in ELM. For "NPF", 979 proteins were found to be enriched in the disordered region and 12 of these recorded in the ELM (7 of which have a known role in endocytosis). For "X[DE]XXXL[LI]", 7841 protein were found to be enriched in the disordered regions and 5 of these recorded in the ELM. Lastly, for "NPXY", 776 proteins were found to be enriched in the disordered region and 9 of there recorded in the ELM (2 of which have known function in endocytosis). That being said, while the analysis of the specified endocytic proteins may not support the hypothesis, enriched proteins that can be targeted for experimental validation have been identified. 
+Results do not support the hypothesis. The distribution of motifs in the disordered regions compared to the ordered regions are not always enriched in endocytic proteins as displayed in the first table and plot with the details of the known AP2 complex adaptor proteins and their associated protein kinase, AAK1. In fact, the known endocytic proteins look to be enriched in motif counts in the ordered regions, with exception of AAK1. To our surprise, the functions of the known endocytic proteins were not found in the Eukaryotic Linear Motif database. However, the literature confirms their involvement in clathrin-mediated endocytosis (1)(3)(4). Furthermore, the results for each identified endocytic motif differ. For "YXX[LIMFV]", 12969 proteins were found to be enriched in the disordered region and only 3 of these recorded in ELM (1 of which has a known role in endocytosis). For "NPF", 979 proteins were found to be enriched in the disordered region and 12 of these recorded in the ELM (7 of which have a known role in endocytosis). For "X[DE]XXXL[LI]", 7841 protein were found to be enriched in the disordered regions and 5 of these recorded in the ELM. Lastly, for "NPXY", 776 proteins were found to be enriched in the disordered region and 9 of there recorded in the ELM (2 of which have known function in endocytosis). Interestingly, the "NPF" motif was found to have the most known proteins that have involvement in endocytosis, although the "YXX[LIMFV]" motif's cargo is known to be a binding factor in clathrin-mediated endocytosis. That being said, while the analysis of the specified endocytic proteins may not support the hypothesis, enriched proteins that can be targeted for experimental validation have been identified, especially those unindentified in the "YXX[LIMFV]"" and "X[DE]XXXL[LI]"" motifs whose importance in clathrin-mediated endocytosis are specifically explained in the literature (3). 
 
 ## References
 
