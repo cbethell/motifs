@@ -3,9 +3,11 @@ library(tidyverse)
 library(scales)
 library(cowplot)
 library(ggrepel)
+library(ggpubr)
 data <- read_csv("human_proteome_motifs_across_domains.csv")
 
 #focus only on the motif "YXX[LIMFV] and find the number of motifs in each domain type: ordered and disordered for each protein 
+
 
 #function to filter and count the number of motifs in the regions of each motif expression
 filter_count <- function(data, motif) {
@@ -19,22 +21,25 @@ filter_count <- function(data, motif) {
 }
 
 #function to plot the counts in the regions of each motif expression
-filter_plot <- function(data,motif) {
+filter_plot <- function(data,motif,number,numx,numy) {
   data %>%
-  filter(D > 0) %>%
-  ggplot(aes(x = O, y = D)) + 
-  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(), limits=c(0,10)) +
-  scale_y_continuous("Motif Count in Disordered Regions", limits=c(0,18)) +
-  labs(title = paste0("Motif Counts in ",motif," Expression")) +
-  geom_hex(bins = 15) +
-  geom_abline(color="red") + 
-  stat_binhex(aes(label=..count..), geom="text", bins=15, colour="white", size=3.5) 
+    filter(D > 0) %>%
+    ggplot(aes(x = O, y = D)) + 
+    scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(n = numx), limits=c(0,numx)) +
+    scale_y_continuous("Motif Count in Disordered Regions", breaks = pretty_breaks(n = numy), limits=c(0,numy)) +
+    labs(title = paste0(motif, " motif counts in protein regions")) +
+    geom_hex(bins = number) +
+    geom_abline(color="green") + 
+    stat_binhex(aes(label=..count..), geom="text", bins=number, colour="white", size=3.5) +
+    scale_fill_gradientn(colours=c("red","black"),name = "Frequency",na.value=NA) +
+    grids(linetype = "dashed")
 }
 #filter for YXX[LIMFV] motif expression
 YXX <- filter_count(data, quo("YXX[LIMFV]"))
 
+
 #heatmap of atleast one motif in the disordered region of YXX[LIMFV]
-YXX_domain_plot <- filter_plot(YXX, "YXX[LIMFV]")
+YXX_domain_plot <- filter_plot(YXX, "YXX[LIMFV]", 15, 10, 18)
 ggsave(file = "YXX_plot.pdf", YXX_domain_plot, width=7, height=6)
 
 
@@ -42,22 +47,33 @@ ggsave(file = "YXX_plot.pdf", YXX_domain_plot, width=7, height=6)
 NPF <- filter_count(data, quo("NPF"))
 
 #heatmap of atleast one motif in the disordered region of NPF
-NPF_domain_plot <- filter_plot(NPF, "NPF")
+NPF_domain_plot <- filter_plot(NPF, "NPF", 12, 3, 5)
 ggsave(file = "NPF_plot.pdf", NPF_domain_plot, width=7, height=6)
+
 
 #filter for X[DE]XXXL[LI] motif expression
 XD <- filter_count(data, quo("X[DE]XXXL[LI]")) 
 
 #heatmap of atleast one motif in the disordered region of X[DE]XXXL[LI]
-XD_domain_plot <- filter_plot(XD, "X[DE]XXXL[LI]")
+XD_domain_plot <- filter_plot(XD, "X[DE]XXXL[LI]", 15, 10, 18)
 ggsave(file = "XD_plot.pdf", XD_domain_plot, width=7, height=6)
 
 #filter for NPXY motif expression
 NPXY <- filter_count(data, quo("NPXY"))
 
 #heatmap of atleast one motif in the disordered region of NPXY
-NPXY_domain_plot <- filter_plot(NPXY, "NPXY")
+NPXY_domain_plot <- filter_plot(NPXY, "NPXY", 15, 10, 18)
 ggsave(file = "NPXY_plot.pdf", NPXY_domain_plot, width=7, height=6)
+
+FXDX <- filter_count(data, quo("FXDX[FILMV]"))
+FXDX_domain_plot <- filter_plot(FXDX, "FXDX[FILMV]", 8, 5, 5)
+
+DX <- filter_count(data, quo("DX[FW]"))
+DX_domain_plot <- filter_plot(DX, "DX[FW]", 15, 8, 20)
+
+ST <- filter_count(data, quo("[ST]XXXX[LI]"))
+ST_domain_plot <- filter_plot(ST, "[ST]XXXX[LI]", 15, 10, 30)
+
 
 #plot showing count of motifs in disordered regions for each motif type
 motif_disordered_plot <- data %>%
@@ -140,8 +156,14 @@ definite_active_motifs <- data %>%
   summarize(count = n()) %>%
   spread(domain_type, count) %>%
   replace_na(list(D = 0, O = 0))%>%
-  group_by(motif_type) %>%
-  filter(motif_type %in% c("NPF","X[DE]XXXL[LI]","YXX[LIMFV]", "NPXY")) 
+  filter(motif_type %in% c("DX[FW]","X[DE]XXXL[LI]","YXX[LIMFV]", "NPXY","[ST]XXXX[LI]","FXDX[FILMV]", "NPF")) %>%
+  ggplot(aes(x = O, y = D)) + 
+  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks()) +
+  scale_y_continuous("Motif Count in Disordered Regions", breaks = pretty_breaks()) +
+  geom_point(stat = "identity") +
+  geom_abline(color="red") + 
+  geom_text_repel(aes(label=UNIPROT_name)) +
+  facet_wrap(~motif_type, ncol = 2)
 
 ggsave(file = "active_endo_motifs.pdf", definite_active_motifs)
 
@@ -161,3 +183,23 @@ NPXY_sum <- sum(NPXY_count$`D > O` == TRUE)
 XD_count <- XD %>%
   count (D > O)
 XD_sum <- sum(XD_count$`D > O` == TRUE)
+
+FXDX_count <- FXDX %>%
+  count (D > O)
+FXDX_sum <- sum(FXDX_count$`D > O` == TRUE)
+
+DX_count <- DX %>%
+  count (D > O)
+DX_sum <- sum(DX_count$`D > O` == TRUE)
+
+ST_count <- ST %>%
+  count (D > O)
+ST_sum <- sum(ST_count$`D > O` == TRUE)
+
+##Attempt to use geom_raster for NPF plot 
+
+NPF %>%
+  filter(D > 0) %>%
+  ggplot(aes(x = O, y = D)) + 
+  ggtitle("NPF motif counts in protein regions") +
+  geom_raster(aes(fill = ..count..))
