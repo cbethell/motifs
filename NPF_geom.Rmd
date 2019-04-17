@@ -1,0 +1,47 @@
+---
+title: "NPF_geom"
+author: "Chante Bethell"
+date: "4/15/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(scales)
+library(cowplot)
+library(ggrepel)
+library(ggpubr)
+library(knitr)
+data <- read_csv("human_proteome_motifs_across_domains.csv")
+
+filter_count <- function(data, motif) {
+  data %>%
+  group_by(sequence_id,domain_type,motif_type) %>%
+  summarize(count = n()) %>%
+  spread(domain_type, count) %>%
+  replace_na(list(D = 0, O = 0)) %>%
+  arrange(desc(D)) %>%
+  filter(motif_type == !!motif)
+}
+
+
+```
+
+
+
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+NPF <- filter_count(data, quo("NPF"))
+
+NPF %>%
+  filter(D > 0) %>%
+  ggplot(aes(x = O, y = D)) + 
+  ggtitle("NPF motif counts in protein regions") +
+  geom_raster(aes(fill = ..count..))
+  
+```
