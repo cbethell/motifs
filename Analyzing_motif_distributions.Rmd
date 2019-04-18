@@ -17,31 +17,35 @@ A short linear motif (SLiM) is a recurring pattern of approximately three to ten
 
 ## Introduction
 
-Endocytosis is the process by which cells engulf molecules from the extracellular environment.
-Clathrin-mediated endocytosis (CME) is a fundamental cellular pathway by which transmembrance receptors and their cargo are taken up into intracellular compartments (8). This type of endocytosis is named for its dependance on the protein clathrin which interacts with adaptor proteins during the formation of a clathrin-coated vesicle and the selection of cargo for internalization (8). Since, clathrin cannot directly interact with lipids or proteins of the plasma membrane, the adaptor proteins assist in the assembly of clathrin-coated vesicles by providing a link between clathrin and the membrane-bound cargo (8). The main adaptor protein that clathrin interacts with at the plasma membrane is adaptor protein 2 (AP2). The proposed clathrin-mediated endocytic pathway is depicted in Figure 1. 
+Endocytosis is the process by which cells engulf molecules from the extracellular environment. Clathrin-mediated endocytosis (CME) is a fundamental cellular pathway by which transmembrane receptors and their cargo are taken up into intracellular compartments (8). CME uses two main proteins, clathrin and AP2, to create clathrin-coated vesicles that transport cargo (8). This process uses AP2 (shown in Figure 1) to assemble these vesicles. The proposed clathrin-mediated endocytic pathway is depicted in Figure 2 (8). 
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Figure 1A: Assembly and disassembly of the clathrin-coated pit. Figure 1B: Important companents involved in the initaition of clathrin=mediated endocytosis. The extracellular ligands is internalized when they bind to their transmembrane receptor. AP2 binds to the receptors at the intracellular side of the plasma membrane and to phosphatidylinositol 4,5-bisphosphate (PIP2) found in the inner membrane. AP2 also recruits clathrin triskelions (green) to the active endocytic site where polymerization results in the formation of the clathrin coat surrounding the pit.  ", out.width = '75%'}
+```{r pressure, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Figure 1: The AP2 Protein Adaptor Complex, colored by its subunits: AP2A, AP2B1, AP2S1, AP2M1 (7)", out.width = '75%'}
+knitr::include_graphics("4uqi.png")
+```
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Figure 2A: Steps of the clathrin-coated pit formation (8). Figure 2B: The major players in the initiation of CME. The cargo binds to its respective transmembrane receptor, which AP2 then binds to in order to create a bridge to  clathrin (8).", out.width = '75%'}
 knitr::include_graphics("clathrinpit.jpg")
 ```
 
 <br>
 
-Small functional signal motifs have become an essential part of studying endocytosis. These signal motifs are usually four to seven amino-acid residues long, and of those, the most functional important ones seem to be the bulky hydrophobic and charged amino acid residues (6). This is because of their suggested role in determining the specificity and the endocytic functional significance of the internalization and trafficking of transmembrane receptors and proteins (6). There are specific motifs that mediate and trigger endocytosis. However, the short length of motifs means that it is easy to overlook those that may be important to biological functions. Motifs have previously been found to be embedded and primarily functional in disordered regions, which are polypeptide segments that lack a tertiary structure due to having insufficient hydrophobic amino acids (12). The same cannot be said for motifs found in the ordered regions, polypeptide segments that do have a tertiary structure, in proteins. The goal of this study is to identify previously unrecognized proteins that may be involved in endocytosis by analyzing the ratio distribution of motifs in the ordered and disordered regions of the human proteome. It is already known that certain motifs play a specific role in recruitment in CME, such as $YXX\Phi$ and $[DE]XXXL[LI]$ which are motifs on transmembrane cargo proteins responsible for internalization (4), and $NPXY$ which recruits clathrin and adaptor protein molecules and acts as a recognition site for cargo to be delivered to endosomes and lysosomes (6). This known information allows us to use these motifs as the main focus of our study, and also allows us to examine their distributions in known endocytic proteins to give us an idea of what we are looking for. Overall our findings show the ratio of lowest motif count, for each motif, in proteins across the human proteome. This will allow us to identify and target any unrecognized interesting proteins that should be experimentally validated for possible endocytic functionality. 
+Short linear motifs are short stretches of about three to ten amino acids. There are specific motifs that mediate and trigger endocytosis. These motifs are found in membrane receptor cytoplasmic tails. Previous studies have found that motifs are primarily functional in disordered regions, i.e. regions that lack a tertiary structure, of such proteins (12). Sometimes motifs do occur in ordered protein regions, but such motifs are generally not functional. Motifs can have a variable sequence because they often contain so-called "wildcards" where multiple amino acids can be recognized. More specifically, the motif $YXX[LIMFV]$ is read as Y then any two amino acids, then any one of the five amino acids in the LIMFV group enclosed in square brackets (this amino acid group can also be represented by the $\Phi$ symbol). Certain motifs play a specific role in CME. For example, motifs $YXX\Phi$ and $[DE]XXXL[LI]$ are responsible for the transport of membrane proteins and their cargo, and the motif $NPXY$ attracts clathrin and AP2 (6). These motifs have wildcards as previously mentioned. 
 
+The goal of this study is to identify proteins that may be involved in endocytosis by analyzing the presence of CME motifs across the human proteome. We hypothesize that proteins that are enriched for CME motifs in disordered regions, relative to ordered regions, may play an unrecognized role in CME. Proteins that we detect will be experimentally tested for possible endocytotic functionality. 
+ 
 ## Results
 
 ###Background
 
-We chose to focus on five proteins which are specifically involved in forming clathrin-coated pits for cargo intake in endocytosis: AP2A1, AP2A2, AP2B1, AP2S1 and AP2M1. According to Koscielny et al., these are, respectively, the 5 subunits of the AP2 protein (depicted in the figure 2 below), which trigger clathrin coated pit formation for the binding of cargo, plasma membrane, clathrin, and other accessory proteins (5). AAK1 is the AP2 associated kinase which phosphorylates this clathrin-mediated endocytosis and will also be included in our study (2). To be more specific, the activation of Adaptor Protein 2 complex occurs due to the hierarchial binding of the AP2A1, AP2A2, AP2B1, and AP2S1 subunits to phosphatidylinositol-4,5-bisphosphate (PIP2). The stabilization of these active complexes occurs via AP2M1 binding to PIP2 and interactions with $YXX\Phi$-containing cargo (4). 
 
-```{r pressure, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Figure 2: The AP2 Protein Adaptor Complex, colored by its subunits: AP2A, AP2B1, AP2S1, AP2M1 (7)", out.width = '75%'}
-knitr::include_graphics("4uqi.png")
-```
+First, we decided to focus on the following motifs based on their known activity in endocytosis and validation by the Eukaryoutic Linear Motif Database (ELM): $X[DE]XXXL[LI]$, $YXX[LIMFV]$, $NPXY$, $FXDX[LIMFV]$, $DX[FW]$, $[ST]XXXX[LI]$ and $NPF$ (3). The motifs $X[DE]XXXL[LI]$, $YXX[LIMFV]$, $NPXY$, and $NPF$ were further validated by Pandey's research(6).
+
+We then examined the distributions of the named motifs across ordered vs. disordered regions in proteins known to be involved with CME (shown in Table 2). These proteins are the five subunits of the AP2 protein (AP2A1, AP2A2, AP2B1, AP2S1 and AP2M1) and AAK1, the AP2-associated kinase (2). 
+
+Finally, we searched the human proteome for all instances of these motifs to see how their distributions compare to the distributions seen in CME proteins. 
+
 
 <br>
-
-Table 1 shows us the motifs we chose to focus on, their known function, and the reference where the function was found. When studying motifs, it is important to note that the 'X' character represents a wild card position where any amino acid can be recognized, the [] around multiple letters as in YXX[LIMFV] means that any of the amino acids in that group of letters can satisfy the expression, and the $\Phi$ symbol represents [LIMFV] which are the hydophobic amino acids (1). Meanwhile, the proteins proteins names in the above paragraph can be found in Table 2, along with the count of instances in seven motifs that have also been determined to be involved in endocytosis. The counts are separated to represent disordered verus ordered regions of each protein (obtained from our results and from the Eukaryotic Linear Motif database)(3).
-
 
 
 Motif  |  Known Function  | Reference
@@ -54,32 +58,38 @@ Motif  |  Known Function  | Reference
 | $NPXY$  | This motif is a Phosphotyrosine binding (PTB) domain that binds to a phosphorylated version of NPXY. Hence, this motif is strongly associated with endocytic signalling. | http://elm.eu.org/elms/LIG_PTB_Apo_2 |
 | $NPF$  | This motif is responsible for binding to the Eps15 homology (EH) domain. EH domains are only found in endocytic proteins and proteins involved in vesicular trafficking and are therefore believed to regulate these processes. | http://elm.eu.org/elms/LIG_EH_1 |
 
+Table 1 shows us the motifs we chose to focus on, their known function, and the reference where the function was found.  
 
-|UNIPROT Protein Name (ID)| Known Active Motif | Observed Motif Count (Disordered/Ordered) | Recorded ELM Motif Count (Disordered/Ordered)
-| ------------ |:----------:| :---------------:| :------------: |
-|AP2A1 (O95782) | $X[DE]XXXL[LI]$ | 0/1 |  |
-|AP2A1 (O95782)|  $YXX[LIMFV]$ | 0/1 |  |
-|AP2A1 (O95782)|  $[ST]XXXX[LI]$ | 3/1 |  |
-|AP2A1 (O95782)|  $DX[FW]$ | 1/1 |  |
-|AP2A2 (O94973)|  $X[DE]XXXL[LI]$ | 0/1 |  |
-|AP2A2 (O94973)|  $YXX[LIMFV]$ | 0/1 |  |
-|AP2A2 (O94973)|  $[ST]XXXX[LI]$ | 5/2 |  |
-|AP2A2 (O94973)|  $DX[FW]$ | 1/1 |  |
-|AP2B1 (P63010)|  $X[DE]XXXL[LI]$ | 0/1 |  |
-|AP2B1 (P63010)|  $YXX[LIMFV]$ | 0/1 |  |
-|AP2B1 (P63010)|  $[ST]XXXX[LI]$ | 1/1 |  |
-|AP2B1 (P63010)|  $DX[FW]$ | 0/1 |  |
-|AP2M1 (Q96CW1)|  $X[DE]XXXL[LI]$ | 0/1 |  |
-|AP2M1 (Q96CW1)|  $YXX[LIMFV]$ | 0/1 |  |
-|AP2M1 (Q96CW1)|  $[ST]XXXX[LI]$ | 1/0 |  |
-|AP2M1 (Q96CW1)|  $DX[FW]$ | 0/1 |  |
-|AP2M1 (Q96CW1)|  $FXDX[LIMFV]$ | 0/1 |  |
-|AP2S1 (P53680)|  $YXX[LIMFV]$ | 0/3 |  |
-|AAK1  (Q2M2I8)|  $X[DE]XXXL[LI]$ | 2/0 |  |
-|AAK1  (Q2M2I8)|  $YXX[LIMFV]$ | 0/1 |  |
-|AAK1  (Q2M2I8)|  $[ST]XXXX[LI]$ | 16/1 |  |
-|AAK1  (Q2M2I8)|  $DX[FW]$ | 5/1 |  |
+<br>
 
+|UNIPROT Protein Name (ID)| Known Active Motif | Observed Motif Count (Disordered/Ordered) |
+| ------------ |:----------:| :---------------:|
+|AP2A1 (O95782) | $X[DE]XXXL[LI]$ | 0/1 |
+|AP2A1 (O95782)|  $YXX[LIMFV]$ | 0/1 |
+|AP2A1 (O95782)|  $[ST]XXXX[LI]$ | 3/1 |
+|AP2A1 (O95782)|  $DX[FW]$ | 1/1 |
+|AP2A2 (O94973)|  $X[DE]XXXL[LI]$ | 0/1 | 
+|AP2A2 (O94973)|  $YXX[LIMFV]$ | 0/1 |
+|AP2A2 (O94973)|  $[ST]XXXX[LI]$ | 5/2 |
+|AP2A2 (O94973)|  $DX[FW]$ | 1/1 |
+|AP2B1 (P63010)|  $X[DE]XXXL[LI]$ | 0/1 |
+|AP2B1 (P63010)|  $YXX[LIMFV]$ | 0/1 |
+|AP2B1 (P63010)|  $[ST]XXXX[LI]$ | 1/1 |
+|AP2B1 (P63010)|  $DX[FW]$ | 0/1 |
+|AP2M1 (Q96CW1)|  $X[DE]XXXL[LI]$ | 0/1 | 
+|AP2M1 (Q96CW1)|  $YXX[LIMFV]$ | 0/1 |
+|AP2M1 (Q96CW1)|  $[ST]XXXX[LI]$ | 1/0 |
+|AP2M1 (Q96CW1)|  $DX[FW]$ | 0/1 |
+|AP2M1 (Q96CW1)|  $FXDX[LIMFV]$ | 0/1 | 
+|AP2S1 (P53680)|  $YXX[LIMFV]$ | 0/3 |
+|AAK1  (Q2M2I8)|  $X[DE]XXXL[LI]$ | 2/0 | 
+|AAK1  (Q2M2I8)|  $YXX[LIMFV]$ | 0/1 |
+|AAK1  (Q2M2I8)|  $[ST]XXXX[LI]$ | 16/1 | 
+|AAK1  (Q2M2I8)|  $DX[FW]$ | 5/1 |
+
+Table 2 shows us the AP2 subunit protein and associated kinase names and accession ID's, along with the count of instances in seven motifs that have also been determined to be involved in endocytosis. The counts are separated to represent disordered verus ordered regions of each protein.
+
+<br>
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -100,8 +110,8 @@ data %>%
   replace_na(list(D = 0, O = 0))%>%
   filter(motif_type %in% c("DX[FW]","X[DE]XXXL[LI]","YXX[LIMFV]", "NPXY","[ST]XXXX[LI]","FXDX[FILMV]", "NPF")) %>%
   ggplot(aes(x = O, y = D)) + 
-  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks()) +
-  scale_y_continuous("Motif Count in Disordered Regions", breaks = pretty_breaks()) +
+  scale_x_continuous("Ordered Motif Count", breaks = pretty_breaks()) +
+  scale_y_continuous("Disordered Motif Count", breaks = pretty_breaks()) +
   geom_point(stat = "identity") +
   geom_abline(color="red") + 
   geom_text_repel(aes(label=UNIPROT_name)) +
@@ -109,7 +119,7 @@ data %>%
   
 ```
 
-This plot shows the proteins and their motif count ratios in the specified motifs known to be involved in endocytosis. Proteins located above the red line are considered enriched in the disordered regions, those below the red line are considered enriched in the ordered regions, and those on the red line are not enriched in either region. This plot shows that the proteins we determined to be active in endocytosis are enriched in motif count in the ordered regions in the motifs $YXX[LIMFV]$ and $X[DE]XXL[LI]$ (with the exception of the AAK1 protein kinase which is enriched in motif count in the disordered regions for the $X[DE]XXXL[LI]$ motif). In the $[ST]XXXX[LI]$ all the proteins except the AP2B1 protein are enriched in the disordered regions. In the $DX[FW]$ motif, the AP2M1 and AP2B1 proteins are enriched in the ordered regions, while the AAK1 protein is enriched in the disordered region. Lastly, the AP2M1 protein is enriched in the ordered region for the $FXDX[LIMFV]$ motif. 
+This plot shows the proteins and their number of instances in disordered regions compared to ordered regions across the specified endocytotic motifs. Proteins located above the red line are considered enriched in the disordered regions, those below the red line are considered enriched in the ordered regions, and those on the red line are not enriched in either region. This plot shows that the proteins we determined to be active in endocytosis are enriched in motif count in the ordered regions in the motifs $YXX[LIMFV]$ and $X[DE]XXL[LI]$ (with the exception of the AAK1 protein kinase which is enriched in motif count in the disordered regions for the $X[DE]XXXL[LI]$ motif). In the $[ST]XXXX[LI]$ all the proteins except the AP2B1 protein are enriched in the disordered regions. In the $DX[FW]$ motif, the AP2M1 and AP2B1 proteins are enriched in the ordered regions, while the AAK1 protein is enriched in the disordered region. Lastly, the AP2M1 protein is enriched in the ordered region for the $FXDX[LIMFV]$ motif. 
 
 ###Findings
 In the Results section, we further show the top ten proteins that we have found to be enriched in the disordered regions for each motif, that is the proteins with the lowest count in the ordered regions compared to the disordered regions. Each table in this section is headed by the specific motif the table focuses on and has five columns to represent the following:
@@ -119,35 +129,46 @@ ii. The UNIPROT name for each protein
 iii. The ratio of motif counts in the disordered versus ordered regions
 iv. Whether or not the protein has been validated and recorded in the Eukaryoitic Linear Motif Database (3). 
 
-The plot following each table represents a heatmap of proteins organized by the distribution of specific motifs in the disordered and ordered regions. The motifs specified were chosen based on their known activity in endocytosis, validated by the Eukaryoutic Linear Motif Database (ELM) as follows: $X[DE]XXXL[LI]$, $YXX[LIMFV]$, $NPXY$, $FXDX[LIMFV]$, $DX[FW]$, $[ST]XXXX[LI]$ and $NPF$ (3). The following motifs were further validated by Pandey: $X[DE]XXXL[LI]$, $YXX[LIMFV]$, $NPXY$, and $NPF$ (6). The AP2 adaptor complex is known to recognize the $YXX\Phi$ and $X[DE]XXXL[LI]$ endocytic signal motifs within the cytosolic tails of the transmembrane cargoes (11). In order to study each motif separately, heatmaps and tables were produced for each specific motif. Each hexagon on the heatmaps is labeled with a white number representing the number of proteins that have the same number of motif instances in the ordered and disordered regions, while the red line is a one to one line used to determine which proteins are enriched in the disordered regions and should be targeted based on our hypothesis. Proteins found most above the red line are those that we want to target. 
+The plot following each table represents a heatmap of proteins organized by their distribution in the disordered and ordered regions for specific motifs. The AP2 adaptor complex is known to recognize the $YXX\Phi$ and $X[DE]XXXL[LI]$ endocytic signal motifs within the cytosolic tails of the transmembrane cargoes (11). In order to study each motif separately, heatmaps and tables were produced for each specific motif. Each rectangle on the heatmaps is labeled with a white number representing the number of proteins that have the same number of motif instances in the ordered and disordered regions. The rectangles found higher on the plots represent the proteins that are enriched in the disordered regions. These are the proteins that should be targeted based on our hypothesis.A different package was used to display the results for the motif $[ST]XXXL[LI]$ for better visualization. 
 
 <br>
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 
 data <- rename(data, sequence_id = UNIPROT_ID)
-filter_count <- function(data, motif) {
-  data %>%
+data %<>%
   group_by(sequence_id,domain_type,motif_type) %>%
   summarize(count = n()) %>%
   spread(domain_type, count) %>%
   replace_na(list(D = 0, O = 0)) %>%
-  arrange(desc(D)) %>%
-  filter(motif_type == !!motif)
+  filter (D > 0)
+
+
+filter_plot <- function(data,motif,numx,numy) {
+  data %>%
+    group_by(D,O) %>%
+    tally() %>%
+    mutate(xmin = O-0.5, ymin = D-0.5, xmax = xmin + 1, ymax = ymin+1) %>%
+    ggplot() + 
+    geom_rect(color = "white", aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = n)) + 
+    geom_text(color = "white", aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2, label = n)) + 
+    scale_x_continuous("Ordered Motif Count", breaks = 0:numx) +
+    scale_y_continuous("Disordered Motif Count", breaks = 0:numy) +
+    grids(linetype = "dashed") +
+    geom_abline(color = "green") +
+    scale_fill_continuous(name = "Protein Count")
 }
 
-filter_plot <- function(data,motif,number,numx,numy) {
+filter_STplot <- function(data,motif,number,numx,numy) {
   data %>%
-  filter(D > 0) %>%
-  ggplot(aes(x = O, y = D)) + 
-  scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(n = numx), limits=c(0,numx)) +
-  scale_y_continuous("Motif Count in Disordered Regions", breaks = pretty_breaks(n = numy), limits=c(0,numy)) +
-  labs(title = paste0(motif, " motif counts in protein regions")) +
-  geom_hex(bins = number) +
-  geom_abline(color="green") + 
-  stat_binhex(aes(label=..count..), geom="text", bins=number, colour="white", size=3.5) +
-  scale_fill_gradientn(colours=c("red","black"),name = "Frequency",na.value=NA) +
-  grids(linetype = "dashed")
+    ggplot(aes(x = O, y = D)) + 
+    scale_x_continuous("Motif Count in Ordered Regions", breaks = pretty_breaks(n = numx), limits=c(0,numx)) +
+    scale_y_continuous("Motif Count in Disordered Regions", breaks = pretty_breaks(n = numy), limits=c(0,numy)) +
+    geom_hex(bins = number) +
+    geom_abline(color="green") + 
+    stat_binhex(aes(label=..count..), geom="text", bins=number, colour="white", size=2.5) +
+    scale_fill_gradient(high = "black", low = "red",name = "Frequency",na.value=NA) +
+    grids(linetype = "dashed")
 }
 
 ```
@@ -156,8 +177,8 @@ filter_plot <- function(data,motif,number,numx,numy) {
 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-YXX <- filter_count(data, quo("YXX[LIMFV]"))
-filter_plot(YXX, "YXX[LIMFV]", 15, 10, 18)
+YXX <- filter(data, motif_type == "YXX[LIMFV]")
+filter_plot(YXX, "YXX[LIMFV]", 10, 18)
 ```
 
 This plot shows the distribution of $YXX[LIMFV]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
@@ -165,8 +186,8 @@ This plot shows the distribution of $YXX[LIMFV]$ motif counts in the ordered ver
 <br>
 
 ##### $YXX[LIMFV]$ table
-| UNIPROT name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| :------- |:--------:|:--------:| :--------:| :---------------------------------------:|
+| Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
+| :------- |:--------:|:--------:| :--------:| :-------------------------------:|
 | IRS2 | Q9Y4H2  | 17  | 1 | no |
 | IRS1 | P35568  | 14  | 0 | no |
 | SEC24B | O95487  | 11  | 2 | no |
@@ -184,8 +205,8 @@ This plot shows the distribution of $YXX[LIMFV]$ motif counts in the ordered ver
 ##### In this section, the $NPF$ motif was investigated. This motif is responsible for binding to the Eps15 homology (EH) domain. EH domains are only found in endocytic proteins and believed to regulate endocytosis.
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-NPF <- filter_count(data, quo("NPF"))
-filter_plot(NPF, "NPF", 12, 3, 5)
+NPF <- filter(data, motif_type == "NPF")
+filter_plot(NPF, "NPF", 3, 5)
 ```
 
 This plot shows the distribution of $NPF$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
@@ -193,8 +214,8 @@ This plot shows the distribution of $NPF$ motif counts in the ordered versus dis
 <br>
 
 ##### $NPF$ table
-| UNIPROT name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| ------- |:--------:|:--------:| :--------:| :---------------------------------------:|
+| Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
+| ------- |:--------:|:--------:| :--------:| :--------------------------------:|
 | RBSN | Q9H1K0  | 6  | 0 | yes, in Rabenosyn-5 which is an effector protein that plays a role in early endocytic membrane fusion* |
 | EHBP1 | Q8NDI1  | 5  | 0 | yes, in EH domain-binding protein 1 which links clathrin-mediated endocytosis to the actin cytoskeleton* |
 | DAB2 | P98082  | 4  | 0 | no |
@@ -211,8 +232,8 @@ This plot shows the distribution of $NPF$ motif counts in the ordered versus dis
 ##### In this section, the $X[DE]XXXL[LI]$ motif was investigated. This is a targeting motif that is responsible for the sorting and internalization signals that interact with AP2. 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-XD <- filter_count(data, quo("X[DE]XXXL[LI]")) 
-filter_plot(XD, "X[DE]XXXL[LI]", 15, 10, 18)
+XD <- filter(data, motif_type == "X[DE]XXXL[LI]")
+filter_plot(XD, "X[DE]XXXL[LI]", 10, 18)
 ```
 
 This plot shows the distribution of $X[DE]XXXL[LI]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
@@ -220,8 +241,8 @@ This plot shows the distribution of $X[DE]XXXL[LI]$ motif counts in the ordered 
 <br>
 
 ##### $X[DE]XXXL[LI]$ table
-| UNIPROT name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| ------- |:--------:| :--------:| :---------------------------------------:|
+| Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
+| ------- |:--------:|:--------:| :--------:| :--------------------------------:|
 | TCHH | Q07283  | 14  | 1 | no |
 | Uncharacterized protein FLJ40521 | Q8N7P7  | 12  | 0 | no |
 | GOLGA6L4 | A6NEF3  | 11  | 0 | no |
@@ -240,16 +261,16 @@ This plot shows the distribution of $X[DE]XXXL[LI]$ motif counts in the ordered 
 ##### In this section, the $NPXY$ motif was investigated. This is a motif that acts as a Phosphotyrosine binding (PTB) domain to bind to a phosphorylated motif. 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-NPXY <- filter_count(data, quo("NPXY"))
-filter_plot(NPXY, "NPXY", 15, 10, 18)
+NPXY <- filter(data, motif_type == "NPXY")
+filter_plot(NPXY, "NPXY", 10, 18)
 ```
 
 This plot shows the distribution of $NPXY$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
 <br>
 
 ##### $NPXY$ table
-| UNIPROT name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| ------- |:--------:| :--------:| :---------------------------------------:|
+| Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
+| ------- |:--------:|:--------:| :--------:| :--------------------------------:|
 | EGFR | E9PFD7  | 3  | 0 | no |
 | TMC5 | F5GYU8  | 3  | 0 | no |
 | CALR | K7EJB9  | 3  | 0 | no |
@@ -267,8 +288,8 @@ This plot shows the distribution of $NPXY$ motif counts in the ordered versus di
 ##### In this section, the $FXDX[LIMFV]$ motif was investigated. The $FXDX\Phi$ motif mediates the binding of amphipysin, AP180 and synaptojanin170 to the alpha subunit of AP2 (necessary for clathrin coat assembly).
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-FXDX <- filter_count(data, quo("FXDX[FILMV]"))
-filter_plot(FXDX, "FXDX[FILMV]", 8, 5, 5)
+FXDX <- filter(data, motif_type == "FXDX[FILMV]")
+filter_plot(FXDX, "FXDX[FILMV]", 5, 5)
 ```
 
 This plot shows the distribution of $FXDX[LIMFV]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
@@ -276,8 +297,8 @@ This plot shows the distribution of $FXDX[LIMFV]$ motif counts in the ordered ve
 <br>
 
 ##### $FXDX[LIMFV]$ table
-| UNIPROT name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| :------- |:--------:| :--------:| :---------------------------------------:|
+| Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
+| :------- |:--------:|:--------:| :--------:| :-------------------------------:|
 | WASHC2A | A0A087WYF6 | 6 | 0 | no |
 | WASHC2C | A0A096LPC5 | 6 | 0 | no |
 | WASHC2D | Q5SRD0 | 4 | 0 | no |
@@ -295,8 +316,8 @@ This plot shows the distribution of $FXDX[LIMFV]$ motif counts in the ordered ve
 ##### In this section, the $DX[FW]$ motif was investigated. This motif binds the appendage of the alpha and beta subunits of AP2, thus allowing for their recruitment to the site for the formation of the clathrin coated pit in endocytosis.
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-DX <- filter_count(data, quo("DX[FW]"))
-filter_plot(DX, "DX[FW]", 15, 8, 20)
+DX <- filter(data, motif_type == "DX[FW]")
+filter_plot(DX, "DX[FW]", 8, 20)
 ```
 
 This plot shows the distribution of $DX[FW]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
@@ -304,8 +325,8 @@ This plot shows the distribution of $DX[FW]$ motif counts in the ordered versus 
 <br>
 
 ##### $DX[FW]$ table
-| UNIPROT name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| :------- |:--------:| :--------:| :---------------------------------------:|
+| Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
+| :------- |:--------:|:--------:| :--------:| :-------------------------------:|
 | EPS15L1 | Q9UBC2 | 23 | 0 | yes, there are 20 instances recorded in the epidermal growth factor receptor substrate 15-like 1, which seems to be a component of endocytic clathrin-coated pits and involved in endocytosis of integrin beta-1 and transferrin receptor. |
 | WASHC2A | A0A087WYF6 | 22 | 0 | no |
 | WASHC2C | A0A096LPC5 | 21 | 0 | no |
@@ -322,17 +343,17 @@ This plot shows the distribution of $DX[FW]$ motif counts in the ordered versus 
 ##### In this section, the $[ST]XXXX[LI]$ motif was investigated. This is a cyclin docking motif, thereby increasing phosphorylation by cyclin/Cdk complexes.
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-ST <- filter_count(data, quo("[ST]XXXX[LI]"))
-filter_plot(ST, "[ST]XXXX[LI]", 15, 10, 30)
+ST <- filter(data, motif_type == "[ST]XXXX[LI]")
+filter_STplot(ST, "[ST]XXXX[LI]", 15, 10, 30)
 ```
 
-This plot shows the distribution of $[ST]XXXX[LI]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
+This plot shows the distribution of $[ST]XXXX[LI]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. Unlike the previous plots, this plot uses hexagons. Each hexagon is labeled with a white number representing the number of proteins that have the same number of motif instances in the ordered and disordered regions, while the green line is a one to one line used to determine which proteins are enriched in the disordered regions and should be targeted based on our hypothesis. The table below displays the top ten proteins found to have the lowest count in ordered regions compared to disordered regions for this motif. They represent the hexagons found most above the green line. 
 
 <br>
 
 ##### $[ST]XXXX[LI]$ table
-| UNIPROT name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| :------- |:--------:| :--------:| :---------------------------------------:|
+| Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
+| :------- |:--------:|:--------:| :--------:| :---------------------------------------:|
 | MUC19 | Q7Z5P9 | 119 | 1 | no |
 | MUC17 | E7EPM4 | 114 | 1 | no |
 | MUC4 | A0A0G2JR46 | 72 | 0 | no |
@@ -353,7 +374,7 @@ Results do not support the hypothesis. The distribution of motifs in the disorde
 
 
 | UNIPROT name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Motif |
-| :------- |:--------:|:--------:| :--------:| :---------------------------------------:|
+| :------- |:--------:|:--------:| :--------:| :----------------:|
 | IRS2 | Q9Y4H2  | 17  | 1 | $YXX[LIMFV]$ |
 | IRS1 | P35568  | 14  | 0 | $YXX[LIMFV]$ |
 | SEC24B | O95487  | 11  | 2 | $YXX[LIMFV]$ |
