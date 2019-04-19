@@ -27,7 +27,6 @@ filter_plot <- function(data,motif,numx,numy) {
     scale_x_continuous("Ordered Motif Count", breaks = 0:numx) +
     scale_y_continuous("Disordered Motif Count", breaks = 0:numy) +
     grids(linetype = "dashed") +
-    geom_abline(color = "green") +
     scale_fill_continuous(name = "Protein Count")
 }
 
@@ -47,7 +46,7 @@ YXX <- filter(data, motif_type == "YXX[LIMFV]")
 
 
 #heatmap of atleast one motif in the disordered region of YXX[LIMFV]
-YXX_domain_plot <- filter_plot(YXX, "YXX[LIMFV]", 10, 18)
+YXX_domain_plot <- filter_plot(YXX, "YXX[LIMFV]", 10, 18) + geom_abline(color = "green")
 ggsave(file = "YXX_plot.pdf", YXX_domain_plot, width=7, height=6)
 
 
@@ -55,7 +54,7 @@ ggsave(file = "YXX_plot.pdf", YXX_domain_plot, width=7, height=6)
 NPF <- filter(data, motif_type == "NPF")
 
 #heatmap of atleast one motif in the disordered region of NPF
-NPF_domain_plot <- filter_plot(NPF, "NPF", 3, 5)
+NPF_domain_plot <- filter_plot(NPF, "NPF", 3, 5) + geom_abline(color = "green")
 ggsave(file = "NPF_plot.pdf", NPF_domain_plot, width=7, height=6)
 
 
@@ -63,7 +62,7 @@ ggsave(file = "NPF_plot.pdf", NPF_domain_plot, width=7, height=6)
 XD <- filter(data, motif_type == "X[DE]XXXL[LI]")
 
 #heatmap of atleast one motif in the disordered region of X[DE]XXXL[LI]
-XD_domain_plot <- filter_plot(XD, "X[DE]XXXL[LI]", 10, 18)
+XD_domain_plot <- filter_plot(XD, "X[DE]XXXL[LI]", 10, 18) + geom_abline(color = "green")
 ggsave(file = "XD_plot.pdf", XD_domain_plot, width=7, height=6)
 
 #filter for NPXY motif expression
@@ -73,16 +72,17 @@ NPXY <- filter(data, motif_type == "NPXY")
 NPXY_domain_plot <- filter_plot(NPXY, "NPXY", 10, 18)
 ggsave(file = "NPXY_plot.pdf", NPXY_domain_plot, width=7, height=6)
 
+
 FXDX <- filter(data, motif_type == "FXDX[FILMV]")
-FXDX_domain_plot <- filter_plot(FXDX, "FXDX[FILMV]", 5, 5)
+FXDX_domain_plot <- filter_plot(FXDX, "FXDX[FILMV]", 5, 5) + geom_abline(color = "green")
 ggsave(file = "FXDX_plot.pdf", FXDX_domain_plot, width=7, height=6)
 
 DX <- filter(data, motif_type == "DX[FW]")
-DX_domain_plot <- filter_plot(DX, "DX[FW]", 8, 20)
+DX_domain_plot <- filter_plot(DX, "DX[FW]", 8, 20) + geom_abline(color = "green")
 ggsave(file = "DX_plot.pdf", DX_domain_plot, width=7, height=6)
 
 ST <- filter(data, motif_type == "[ST]XXXX[LI]")
-ST_domain_plot <- filter_STplot(ST, "[ST]XXXX[LI]", 15, 10, 30)
+ST_domain_plot <- filter_STplot(ST, "[ST]XXXX[LI]", 15, 10, 30) 
 ggsave(file = "ST_plot.pdf", ST_domain_plot, width=7, height=6)
 
 
