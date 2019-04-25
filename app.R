@@ -5,6 +5,7 @@
 
 library(shiny)
 library(tidyverse)
+library(ggpubr)
 
 data <- read_csv("human_proteome_motifs_across_domains.csv")
 data %<>%
@@ -20,9 +21,9 @@ ui <- fluidPage(
   
   sidebarPanel(
     
-    helpText("This shiny app shows the distributions of proteins in disordered versus ordered regions for selected motifs"),
+    helpText("This shiny app shows the distributions of selected motifs in disordered versus ordered regions of proteins across the human proteome."),
     ## -> input$motif
-    selectInput('motif', 'Which motif to show?', choices=(c("NPXY","NPF","DX[FW]","YXX[LIMFV]","[ST]XXXX[LI]","X[DE]XXXL[LI]")), selected="NPXY"),
+    selectInput('motif', 'Which motif to show?', choices=(c("NPXY","NPF","DX[FW]","YXX[LIMFV]","[ST]XXXX[LI]","X[DE]XXXL[LI]")), selected="NPF"),
     
     selectInput('x_max', 'What should the higher limit on the x axis be?', choices=(c(1:10)), selected=5),
     selectInput('y_max', 'What should the higher limit on the y axis be?', choices=(c(1:30)), selected=10)
