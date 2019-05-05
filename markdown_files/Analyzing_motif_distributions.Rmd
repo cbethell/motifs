@@ -1,12 +1,11 @@
 ---
 title: "Analysis of Motif Distributions in Regions of Endocytic Proteins"
-author: "Chante Bethell, Zuzana Kadlecova and Stephanie J. Spielman, PhD"
-subtitle: "Rowan University RUSSS Symposium"
+author: "Chante Bethell"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: html_document
 ---
 
-```{r setup, echo=TRUE, warning=FALSE, message=FALSE}
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -140,7 +139,7 @@ ii. The UNIPROT accession ID for each protein enriched in the number of specifie
 iii. The ratio of motif counts in the disordered versus ordered regions (column 4 and 5, respectively)
 iv. Whether or not the protein has been validated and recorded in the Eukaryotic Linear Motif Database (3). 
 
-The plot following each table represents a heatmap proteins organized by their distribution in the disordered and ordered regions for the several endocytic motifs. Each rectangle (or hexagon) is colored based on the number of proteins that have the respective number of motif instances in the ordered and disordered regions. The rectangles found above the green y=x line on each plot represent the proteins that are enriched for the motif in the disordered regions. These are the proteins that should be targeted based on our hypothesis. A different R package was used to display the results for the motif $[ST]XXXL[LI]$ for better visualization. 
+The plot following each table represents a heatmap proteins organized by their distribution in the disordered and ordered regions for the several endocytic motifs. Each rectangle (or hexagon) is colored based on the number of proteins that have the respective number of motif instances in the ordered and disordered regions. The rectangles found above the green y=x line on each plot represent the proteins that are enriched for the motif in the disordered regions. These are the proteins that should be targeted based on our hypothesis. A different plotting function was used to display the results for the motif $[ST]XXXL[LI]$ for better visualization. 
 
 <br>
 
@@ -193,24 +192,25 @@ YXX <- filter(data, motif_type == "YXX[LIMFV]")
 filter_plot(YXX, "YXX[LIMFV]", 10, 18) + geom_abline(color = "green")
 ```
 
-This plot shows the distribution of $YXX[LIMFV]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
+This plot shows the distribution of $YXX[LIMFV]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. For this motif, 12969 proteins were found to be enriched in the disordered region. These are the proteins found above the green y=x line, which looks to be majority of the proteins in the human proteome.
 
 <br>
 
 ##### $YXX[LIMFV]$ table
 | Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| :------- |:--------:|:--------:| :--------:| :-------------------------------:|
-| IRS2 | Q9Y4H2  | 17  | 1 | no |
-| IRS1 | P35568  | 14  | 0 | no |
-| SEC24B | O95487  | 11  | 2 | no |
-| PRRC2A | P48634  | 10  | 0 | no |
-| MUC16  | Q8WXI7  | 10  | 1 | no |
-| R3HDM2 | B5MCU0  | 9  | 1 | no |
-| IRS4 | O14654  | 9  | 1 | no |
-| MAP1B | P46821 | 9  | 1 | no |
-| PAG1 | Q9NWQ8  | 9  | 0 | no |
-| ERBB3 | B3KWG5 | 8  | 1 | no |
+| :---------------- |:--------:|:--------:| :--------:| :---------------------------:|
+| Insulin receptor substrate 2 | Q9Y4H2  | 17  | 1 | no |
+| Insulin receptor substrate 1 | P35568  | 14  | 0 | no |
+| Transport protein Sec24B | O95487  | 11  | 2 | no |
+| Protein PRRC2A | P48634  | 10  | 0 | no |
+| Mucin-16  | Q8WXI7  | 10  | 1 | no |
+| R3H domain-containing protein 2 | B5MCU0  | 9  | 1 | no |
+| Insulin receptor substrate 4 | O14654  | 9  | 1 | no |
+| Microtubule-associated protein 1B | P46821 | 9  | 1 | no |
+| Phosphoprotein associated with glycosphingolipid-enriched microdomains 1 | Q9NWQ8  | 9  | 0 | no |
+| Receptor tyrosine-protein kinase erbB-3 | B3KWG5 | 8  | 1 | no |
 
+This table displays the top ten proteins found to have the lowest motif count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. The insulin receptor substrate isoforms represent three out of these top 10 enriched proteins. The IRS isoforms are associated with the Gene Ontology(GO) terms signal transduction and transmembrane receptor protein kinase adaptor activity, which is very interesting as CME activity takes place in the transmembrane receptor. 
 
 <br>
 
@@ -221,23 +221,25 @@ NPF <- filter(data, motif_type == "NPF")
 filter_plot(NPF, "NPF", 3, 6) + geom_abline(color = "green")
 ```
 
-This plot shows the distribution of $NPF$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
+This plot shows the distribution of $NPF$ motif counts in the ordered versus disordered regions in proteins across the human proteome. For this motif, 979 proteins were found to be enriched in the disordered region.
 
 <br>
 
 ##### $NPF$ table
 | Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| ------- |:--------:|:--------:| :--------:| :--------------------------------:|
-| RBSN | Q9H1K0  | 6  | 0 | yes, in Rabenosyn-5 which is an effector protein that plays a role in early endocytic membrane fusion* |
-| EHBP1 | Q8NDI1  | 5  | 0 | yes, in EH domain-binding protein 1 which links clathrin-mediated endocytosis to the actin cytoskeleton* |
-| DAB2 | P98082  | 4  | 0 | no |
-| SYNJ1 | A0A0D9SGJ6  | 3  | 0 | no |
-| PACSIN2 | A0A0U1RR22  | 3  | 0 | no |
-| RAB11FIP5 | A0A1B0GTL5  | 3  | 0 | no |
-| AGFG1 | B8ZZY2 | 3  | 0 | no |
-| SCAMP2 | H3BN93 | 3  | 0 | no |
-| EPN1 | Q9Y6I3  | 3  | 0 | yes, in Epsin-1 which assists in the formation of the clathrin-coated pit for endocytosis* |
-| EPN2 | O95208 | 3  | 0  | yes, in Epsin-2 which plays a role in the formation of clathrin-coated pit* |
+| ----------------- |:--------:|:--------:| :--------:| :----------------------------:|
+| Rabenosyn-5 | Q9H1K0  | 6  | 0 | yes, in Rabenosyn-5 which is an effector protein that plays a role in early endocytic membrane fusion* |
+| EH domain-binding protein 1 | Q8NDI1  | 5  | 0 | yes, in EH domain-binding protein 1 which links clathrin-mediated endocytosis to the actin cytoskeleton* |
+| Disabled homolog 2 | P98082  | 4  | 0 | no |
+| Synaptojanin-1 | A0A0D9SGJ6  | 3  | 0 | no |
+| Protein kinase C and casein kinase substrate in neurons protein 2 | A0A0U1RR22  | 3  | 0 | no |
+| Rab11 family-interacting protein 5 | A0A1B0GTL5  | 3  | 0 | no |
+| Arf-GAP domain and FG repeat-containing protein 1 | B8ZZY2 | 3  | 0 | no |
+| Secretory carrier-associated membrane protein | H3BN93 | 3  | 0 | no |
+| Epsin-1 | Q9Y6I3  | 3  | 0 | yes, in Epsin-1 which assists in the formation of the clathrin-coated pit for endocytosis* |
+| Epsin-2 | O95208 | 3  | 0  | yes, in Epsin-2 which plays a role in the formation of clathrin-coated pit* |
+
+This table displays the top ten proteins found to have the lowest motif count in ordered regions to disordered regions ratio. Four of these proteins are recorded in the Eukaryotic Linear Motif (ELM) database. The Epsin-1 and Epsin-2 proteins are known to play a role in the formation of the clathrin-coated pit for CME, and the EH domain-binding protein is known to link CME to the cytoskeleton. These are promising results that may support our hypothesis. 
 
 <br>
 
@@ -248,25 +250,25 @@ XD <- filter(data, motif_type == "X[DE]XXXL[LI]")
 filter_plot(XD, "X[DE]XXXL[LI]", 10, 18) + geom_abline(color = "green")
 ```
 
-This plot shows the distribution of $X[DE]XXXL[LI]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
+This plot shows the distribution of $X[DE]XXXL[LI]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. For this motif, 7841 protein were found to be enriched in the disordered regions. 
 
 <br>
 
 ##### $X[DE]XXXL[LI]$ table
 | Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| ------- |:--------:|:--------:| :--------:| :--------------------------------:|
-| TCHH | Q07283  | 14  | 1 | no |
+| ----------------- |:--------:|:--------:| :--------:| :----------------------------:|
+| Trichohyalin | Q07283  | 14  | 1 | no |
 | Uncharacterized protein FLJ40521 | Q8N7P7  | 12  | 0 | no |
-| GOLGA6L4 | A6NEF3  | 11  | 0 | no |
-| CCDC136 | Q96JN2  | 11  | 0 | no |
-| MUC17 | E7EPM4  | 9  | 0 | no |
-| GOLGA6L3 | A6NEY3  | 7  | 0 | no |
-| MYH7B | A0A087X0T3  | 6  | 0 | no |
-| MUC4 | A0A0G2JQI2  | 6  | 0 | no |
-| JAKMIP1 | F2Z2K5 | 6  | 0 | no |
-| SCEL | O95171 | 6  | 0 | no |
+| Golgin subfamily A member 6-like protein 4 | A6NEF3  | 11  | 0 | no |
+| Coiled-coil domain-containing protein 136 | Q96JN2  | 11  | 0 | no |
+| Mucin-17 | E7EPM4  | 9  | 0 | no |
+| Putative golgin subfamily A member 6-like protein 3 | A6NEY3  | 7  | 0 | no |
+| Myosin-7B | A0A087X0T3  | 6  | 0 | no |
+| Mucin-4 | A0A0G2JQI2  | 6  | 0 | no |
+| Janus kinase and microtubule-interacting protein 1 | F2Z2K5 | 6  | 0 | no |
+| Sciellin | O95171 | 6  | 0 | no |
 
-
+This table displays the top ten proteins found to have the lowest motif count in ordered regions to disordered regions ratio. None of these proteins can be found in the Eukaryotic Linear Motif (ELM) database for this motif. However, the coiled-coil domain-containing protein 136 (CCDC136) is associated with the transmembrane domain GO term. This is a promising factor because we know that CME activity occurs in transmembrane receptors. 
 
 <br>
 
@@ -277,24 +279,25 @@ NPXY <- filter(data, motif_type == "NPXY")
 filter_plot(NPXY, "NPXY", 10, 18)
 ```
 
-This plot shows the distribution of $NPXY$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
+This plot shows the distribution of $NPXY$ motif counts in the ordered versus disordered regions in proteins across the human proteome. For this motif, 776 proteins were found to be enriched in the disordered regions. Compared to the other motif plots, this motif occurs the least number of times in the human proteome. 
 
 <br>
 
 ##### $NPXY$ table
 | Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| ------- |:--------:|:--------:| :--------:| :--------------------------------:|
-| EGFR | E9PFD7  | 3  | 0 | no |
-| TMC5 | F5GYU8  | 3  | 0 | no |
-| CALR | K7EJB9  | 3  | 0 | no |
-| CLGN | O14967  | 3  | 0 | no |
-| ERBB2 | B4DTR1 | 2  | 0 | no |
-| CEP41 | F8WAV3 | 2  | 0 | no |
-| MALRD1 | H0Y3D6 | 2  | 0 | no |
-| INPP5D | H0Y5Q9 | 2  | 0 | no |
-| ITGB1 | H7C4K3 | 2  | 0 | no | 
-| CASC3 | O15234 | 2  | 0 | no | 
+| ----------------- |:--------:|:--------:| :--------:| :----------------------------:|
+| Receptor protein-tyrosine kinase | E9PFD7  | 3  | 0 | no |
+| Transmembrane channel-like protein | F5GYU8  | 3  | 0 | no |
+| Calreticulin | K7EJB9  | 3  | 0 | no |
+| Calmegin | O14967  | 3  | 0 | no |
+| Receptor protein-tyrosine kinase | B4DTR1 | 2  | 0 | no |
+| Centrosomal protein of 41 kDa | F8WAV3 | 2  | 0 | no |
+| MAM and LDL-receptor class A domain-containing protein 1 | H0Y3D6 | 2  | 0 | no |
+| Phosphatidylinositol 3,4,5-trisphosphate 5-phosphatase 1 | H0Y5Q9 | 2  | 0 | no |
+| Integrin beta-1 | H7C4K3 | 2  | 0 | no | 
+| Protein CASC3 | O15234 | 2  | 0 | no | 
 
+This table displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. Although none of these proteins are recorded in the Eukaryotic Linear Motif (ELM) database, a number of them are associated with GO terms that are interesting to this study. For example, the two receptor protein-tyrosine kinases (found in different genes) are associated with the transmembrane receptor activity GO term. While Calmegin and the transmembrane channel-like protein are associated with the transmembrane domain, which we know is the site of CME activity. 
 
 <br>
 
@@ -305,23 +308,26 @@ FXDX <- filter(data, motif_type == "FXDX[FILMV]")
 filter_plot(FXDX, "FXDX[FILMV]", 3, 6) + geom_abline(color = "green")
 ```
 
-This plot shows the distribution of $FXDX[LIMFV]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
+This plot shows the distribution of $FXDX[LIMFV]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. For this motif, 2400 proteins were found to be enriched in the disordered region. 
 
 <br>
 
 ##### $FXDX[LIMFV]$ table
 | Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| :------- |:--------:|:--------:| :--------:| :-------------------------------:|
-| WASHC2A | A0A087WYF6 | 6 | 0 | no |
-| WASHC2C | A0A096LPC5 | 6 | 0 | no |
-| WASHC2D | Q5SRD0 | 4 | 0 | no |
-| SNAP91 | E9PDG8 | 3 | 1 | no |
-| HIVEP1 | F5H212 | 3 | 0 | no |
-| SNAP91 | O60641 | 3 | 1 | yes, there are 3 recorded in the clathrin coat assembly protein AP180* |
-| CSNK2A1 | A0A087WY74 | 2 | 0 | no |
-| GPSM1 | A0A0A0MRC4 | 2 | 0 | no |
-| STX1A | A0A0C4DFZ1 | 2 | 0 | no |
-| DNAJB6 | A0A0J9YX62 | 2 | 0 | no |
+| :---------------- |:--------:|:--------:| :--------:| :---------------------------:|
+| WASH complex subunit 2A | A0A087WYF6 | 6 | 0 | no |
+| WASH complex subunit 2C | A0A096LPC5 | 6 | 0 | no |
+| WASH complex subunit 2D | Q5SRD0 | 4 | 0 | no |
+| Zinc finger protein 40 | F5H212 | 3 | 0 | no |
+| Clathrin coat assembly protein AP180 | O60641 | 3 | 1 | yes, there are 3 recorded in the clathrin coat assembly protein AP180* |
+| Casein kinase II subunit alpha | A0A087WY74 | 2 | 0 | no |
+| G-protein-signaling modulator 1 | A0A0A0MRC4 | 2 | 0 | no |
+| Syntaxin-1A | A0A0C4DFZ1 | 2 | 0 | no |
+| DnaJ homolog subfamily B member 6 | A0A0J9YX62 | 2 | 0 | no |
+| Protein FAM193A | A0A1B0GVL4 | 2 | 0 | no |
+
+This table shows the top ten proteins found to have the lowest motif count in ordered regions compared to disordered regions ratio. The most interesting protein here is the clathrin coat assembly protein AP180, which as the name suggests, plays a key role in the formation of the clathrin coated pit for CME. 
+
 
 <br>
 
@@ -333,23 +339,26 @@ DX <- filter(data, motif_type == "DX[FW]")
 filter_plot(DX, "DX[FW]", 4, 25) + geom_abline(color = "green")
 ```
 
-This plot shows the distribution of $DX[FW]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. The table below displays the top ten proteins found to have the lowest count in ordered regions to disordered regions ratio. They represent the upper points on the plot above. 
+This plot shows the distribution of $DX[FW]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. For this motif, 10597 proteins were found to be enriched in the disordered region. 
 
 <br>
 
 ##### $DX[FW]$ table
 | Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| :------- |:--------:|:--------:| :--------:| :-------------------------------:|
-| EPS15L1 | Q9UBC2 | 23 | 0 | yes, there are 20 instances recorded in the epidermal growth factor receptor substrate 15-like 1, which seems to be a component of endocytic clathrin-coated pits and involved in endocytosis of integrin beta-1 and transferrin receptor. |
-| WASHC2A | A0A087WYF6 | 22 | 0 | no |
-| WASHC2C | A0A096LPC5 | 21 | 0 | no |
-| EPS15 | P42566 | 17 | 2 | yes, there are 15 instances recorded in Epidermal growth factor receptor substrate 15 which plays multiple roles in clathrin=mediated endocytosis* |
-| SNAP91 | E9PDG8| 13 | 0 | no |
-| KMT2D | O14686 | 11 | 1 | no |
-| DAB2 | P98082 | 10 | 1 | yes, there are 2 instances recorded in Disabled homolog 2, which is an adaptor protein that acts as a clathrin-associated sorting protein.* |
-| EPN1 | Q9Y6I3 | 10 | 0 | no |
-| WASHC2D | Q5SRD0 | 8 | 0 | no |
-| EIF3A | Q14152 | 7 | 1 | no |
+| :---------------- |:--------:|:--------:| :--------:| :---------------------------:|
+| Epidermal growth factor receptor substrate 15-like 1 | Q9UBC2 | 23 | 0 | yes, there are 20 instances recorded; this protein seems to be a component of endocytic clathrin-coated pits and involved in endocytosis of integrin beta-1 and transferrin receptor. |
+| WASH complex subunit 2A | A0A087WYF6 | 22 | 0 | no |
+| WASH complex subunit 2C | A0A096LPC5 | 21 | 0 | no |
+| Epidermal growth factor receptor substrate 15 | P42566 | 17 | 2 | yes, there are 15 instances recorded; this protein plays multiple roles in clathrin-mediated endocytosis* |
+| Clathrin coat assembly protein AP180 | E9PDG8| 13 | 0 | no |
+| Histone-lysine N-methyltransferase 2D | O14686 | 11 | 1 | no |
+| Disabled homolog 2 | P98082 | 10 | 1 | yes, there are 2 instances recorded; it is an adaptor protein that acts as a clathrin-associated sorting protein.* |
+| Epsin-1 | Q9Y6I3 | 10 | 0 | no |
+| WASH complex subunit 2D | Q5SRD0 | 8 | 0 | no |
+| Eukaryotic translation initiation factor 3 subunit A | Q14152 | 7 | 1 | no |
+
+
+This table displays the top ten proteins found to have the lowest motif count in ordered regions to disordered regions ratio. The epidemeral growth factor receptor substrate 15 protein, disabled homolog 2 protein, and clathrin coat assembly protein AP180 are all known to play a role in CME.
 
 <br>
 
@@ -360,100 +369,33 @@ ST <- filter(data, motif_type == "[ST]XXXX[LI]")
 filter_STplot(ST, "[ST]XXXX[LI]", 15, 10, 30)
 ```
 
-This plot shows the distribution of $[ST]XXXX[LI]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. Unlike the previous plots, this plot uses hexagons. Each hexagon is labeled with a white number representing the number of proteins that have the same number of motif instances in the ordered and disordered regions, while the green line is a one to one line used to determine which proteins are enriched in the disordered regions and should be targeted based on our hypothesis. The table below displays the top ten proteins found to have the lowest count in ordered regions compared to disordered regions for this motif. They represent the hexagons found most above the green line. 
+This plot shows the distribution of $[ST]XXXX[LI]$ motif counts in the ordered versus disordered regions in proteins across the human proteome. Unlike the previous plots, this plot uses hexagons. Each hexagon is labeled with a white number representing the number of proteins that have the same number of motif instances in the ordered and disordered regions, while the green line is a one to one line used to determine which proteins are enriched in the disordered regions and should be targeted based on our hypothesis. For this motif, 31169 proteins were found to be enriched in the disordered regions.
 
 <br>
 
 ##### $[ST]XXXX[LI]$ table
 | Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Recorded in Eukaryotic Linear Motif Database|
-| :------- |:--------:|:--------:| :--------:| :---------------------------------------:|
-| MUC19 | Q7Z5P9 | 119 | 1 | no |
-| MUC17 | E7EPM4 | 114 | 1 | no |
-| MUC4 | A0A0G2JR46 | 72 | 0 | no |
-| KLF18 | A0A0U1RQI7 | 51 | 1 | no |
-| APC | P25054 | 42 | 7 | no |
-| CENPF | P49454 | 39 | 1 | no |
-| PROSER1 | Q86XN7 | 37 | 1 | no |
-| MAP1A | E9PGC8 | 36 | 1 | no |
-| NPIPB5 | E7EUG2 | 35 | 2 | no |
-| RPRD2 | Q5VT52 | 34 | 1 | no |
+| :---------------- |:--------:|:--------:| :--------:| :-----------------------------------:|
+| Mucin-19 | Q7Z5P9 | 119 | 1 | no |
+| Mucin-17 | E7EPM4 | 114 | 1 | no |
+| Mucin-4 | A0A0G2JR46 | 72 | 0 | no |
+| Kruppel-like factor 18 protein | A0A0U1RQI7 | 51 | 1 | no |
+| Adenomatous polyposis coli protein | P25054 | 42 | 7 | no |
+| Centromere protein F | P49454 | 39 | 1 | no |
+| Proline and serine-rich protein 1 | Q86XN7 | 37 | 1 | no |
+| Microtubule-associated protein 1A | E9PGC8 | 36 | 1 | no |
+| Nuclear pore complex-interacting protein family member B5 | E7EUG2 | 35 | 2 | no |
+| Regulation of nuclear pre-mRNA domain-containing protein 2 | Q5VT52 | 34 | 1 | no |
 
+This table shows the top ten proteins found to have the lowest count in ordered regions compared to disordered regions for this motif. They represent the hexagons found most above the green line. Interestingly, none of these proteins were found to be associated with a GO term related to the transmembrane domain. However, this may suggest that these proteins play a role in CME outside of the transmembrane receptor region. 
 
-
+<br>
 
 ## Conclusion 
 
-Results do not prove the hypothesis. The distribution of motifs in the disordered regions compared to the ordered regions are not always enriched in endocytic proteins as displayed in Table 2 and the first plot containing the details of the known AP2 adaptor complex proteins and their associated protein kinase, AAK1. To our surprise, the functions of the known endocytic proteins were not found in the Eukaryotic Linear Motif database. However, the literature confirms their involvement in clathrin-mediated endocytosis (2)(4)(5). The results we found for each identified endocytic motif differ. For $YXX[LIMFV]$, 12969 proteins were found to be enriched in the disordered region. For $NPF$, 979 proteins were found to be enriched in the disordered region. For $X[DE]XXXL[LI]$, 7841 protein were found to be enriched in the disordered regions. For $NPXY$, 776 proteins were found to be enriched in the disordered regions. For $FXDX\Phi$, 2400 proteins were found to be enriched in the disordered region. For $DX[FW]$, 10597 proteins were found to be enriched in the disordered region. For $[ST]XXXX[LI]$, 31169 proteins were found to be enriched in the disordered region. Interestingly, the $NPF$ motif was found to have the most instances in endocytic proteins recorded in the Eukaryotic Linear Motif database (3). One caveat of this study is that many of these motifs are overlapping, and are kinase recruiting. This means that there may be an overestimate of motif instances due to the overlap caused by the wildcards present in these motifs. Also, some proteins found to be enriched for certain motifs in their disordered regions may simply be signalling proteins for kinases that regulate endocytic functions, and do not play a role of their own in endocytosis. Future studies will look at the extent of the motif overlapping. A table of the proteins discovered to be enriched in their disordered regions for endocytic motifs is below. The proteins in this table are not experimentally characterized with functional motifs according to the Eukaryotic Linear Motif (ELM) database, and are therefore potentially novel candidate genes.
+Results do not support the hypothesis. The distribution of motifs in the disordered regions compared to the ordered regions are not always enriched in endocytic proteins as displayed in Table 2 and the first plot containing the details of the known AP2 adaptor complex proteins and their associated protein kinase, AAK1. To our surprise, the functions of the known endocytic proteins were not found in the Eukaryotic Linear Motif database. However, the literature confirms their involvement in clathrin-mediated endocytosis (2)(4)(5). One caveat of this study is that many of these motifs are overlapping, and are kinase recruiting. This means that there may be an overestimate of motif instances due to the overlap caused by the wildcards present in these motifs. Also, some proteins found to be enriched for certain motifs in their disordered regions may simply be signalling proteins for kinases that regulate endocytic functions, and do not play a role of their own in endocytosis. Future studies will look at the extent of the motif overlapping. A table of the proteins discovered to be enriched in their disordered regions for endocytic motifs is below. The proteins in each table that are not experimentally characterized with functional motifs according to the Eukaryotic Linear Motif (ELM) database are potentially novel candidate genes.
 
-
-| Protein name | UNIPROT accession ID | motif count in disordered regions | motif count in ordered regions | Motif |
-| :------- |:--------:|:--------:| :--------:| :----------------:|
-| IRS2 | Q9Y4H2  | 17  | 1 | $YXX[LIMFV]$ |
-| IRS1 | P35568  | 14  | 0 | $YXX[LIMFV]$ |
-| SEC24B | O95487  | 11  | 2 | $YXX[LIMFV]$ |
-| PRRC2A | P48634  | 10  | 0 | $YXX[LIMFV]$ |
-| MUC16  | Q8WXI7  | 10  | 1 | $YXX[LIMFV]$ |
-| R3HDM2 | B5MCU0  | 9  | 1 | $YXX[LIMFV]$ |
-| IRS4 | O14654  | 9  | 1 | $YXX[LIMFV]$ |
-| MAP1B | P46821 | 9  | 1 | $YXX[LIMFV]$ |
-| PAG1 | Q9NWQ8  | 9  | 0 | $YXX[LIMFV]$ |
-| ERBB3 | B3KWG5 | 8  | 1 | $YXX[LIMFV]$ |
-| DAB2 | P98082  | 4  | 0 | $NPF$ |
-| SYNJ1 | A0A0D9SGJ6  | 3  | 0 | $NPF$ |
-| PACSIN2 | A0A0U1RR22  | 3  | 0 | $NPF$ |
-| RAB11FIP5 | A0A1B0GTL5  | 3  | 0 | $NPF$ |
-| AGFG1 | B8ZZY2 | 3  | 0 | $NPF$ |
-| SCAMP2 | H3BN93 | 3  | 0 | $NPF$ |
-| TCHH | Q07283  | 14  | 1 | $X[DE]XXXL[LI]$ |
-| Uncharacterized protein FLJ40521 | Q8N7P7  | 12  | 0 | $X[DE]XXXL[LI]$ |
-| GOLGA6L4 | A6NEF3  | 11  | 0 | $X[DE]XXXL[LI]$ |
-| CCDC136 | Q96JN2  | 11  | 0 | $X[DE]XXXL[LI]$ |
-| MUC17 | E7EPM4  | 9  | 0 | $X[DE]XXXL[LI]$ |
-| GOLGA6L3 | A6NEY3  | 7  | 0 | $X[DE]XXXL[LI]$ |
-| MYH7B | A0A087X0T3  | 6  | 0 | $X[DE]XXXL[LI]$ |
-| MUC4 | A0A0G2JQI2  | 6  | 0 | $X[DE]XXXL[LI]$ |
-| JAKMIP1 | F2Z2K5 | 6  | 0 | $X[DE]XXXL[LI]$ |
-| SCEL | O95171 | 6  | 0 | $X[DE]XXXL[LI]$ |
-| EGFR | E9PFD7  | 3  | 0 | $NPXY$ |
-| TMC5 | F5GYU8  | 3  | 0 | $NPXY$ |
-| CALR | K7EJB9  | 3  | 0 | $NPXY$ |
-| CLGN | O14967  | 3  | 0 | $NPXY$ |
-| ERBB2 | B4DTR1 | 2  | 0 | $NPXY$ |
-| CEP41 | F8WAV3 | 2  | 0 | $NPXY$ |
-| MALRD1 | H0Y3D6 | 2  | 0 | $NPXY$ |
-| INPP5D | H0Y5Q9 | 2  | 0 | $NPXY$ |
-| ITGB1 | H7C4K3 | 2  | 0 | $NPXY$ | 
-| CASC3 | O15234 | 2  | 0 | $NPXY$ | 
-| WASHC2A | A0A087WYF6 | 6 | 0 | $FXDX[LIMFV]$ |
-| WASHC2C | A0A096LPC5 | 6 | 0 | $FXDX[LIMFV]$ |
-| WASHC2D | Q5SRD0 | 4 | 0 | $FXDX[LIMFV]$ |
-| SNAP91 | E9PDG8 | 3 | 1 | $FXDX[LIMFV]$ |
-| HIVEP1 | F5H212 | 3 | 0 | $FXDX[LIMFV]$ |
-| CSNK2A1 | A0A087WY74 | 2 | 0 | $FXDX[LIMFV]$ |
-| GPSM1 | A0A0A0MRC4 | 2 | 0 | $FXDX[LIMFV]$ |
-| STX1A | A0A0C4DFZ1 | 2 | 0 | $FXDX[LIMFV]$ |
-| DNAJB6 | A0A0J9YX62 | 2 | 0 | $FXDX[LIMFV]$ |
-| WASHC2A | A0A087WYF6 | 22 | 0 | $DX[FW]$ |
-| WASHC2C | A0A096LPC5 | 21 | 0 | $DX[FW]$ |
-| SNAP91 | E9PDG8| 13 | 0 | $DX[FW]$ |
-| KMT2D | O14686 | 11 | 1 | $DX[FW]$ |
-| EPN1 | Q9Y6I3 | 10 | 0 | $DX[FW]$ |
-| WASHC2D | Q5SRD0 | 8 | 0 | $DX[FW]$ |
-| EIF3A | Q14152 | 7 | 1 | $DX[FW]$ |
-| MUC19 | Q7Z5P9 | 119 | 1 | $[ST]XXXX[LI]$ |
-| MUC17 | E7EPM4 | 114 | 1 | $[ST]XXXX[LI]$ |
-| MUC4 | A0A0G2JR46 | 72 | 0 | $[ST]XXXX[LI]$ |
-| KLF18 | A0A0U1RQI7 | 51 | 1 | $[ST]XXXX[LI]$ |
-| APC | P25054 | 42 | 7 | $[ST]XXXX[LI]$ |
-| CENPF | P49454 | 39 | 1 | $[ST]XXXX[LI]$ |
-| PROSER1 | Q86XN7 | 37 | 1 | $[ST]XXXX[LI]$ |
-| MAP1A | E9PGC8 | 36 | 1 | $[ST]XXXX[LI]$ |
-| NPIPB5 | E7EUG2 | 35 | 2 | $[ST]XXXX[LI]$ |
-| RPRD2 | Q5VT52 | 34 | 1 | $[ST]XXXX[LI]$ |
-
-
-
-
+<br>
 
 ## References
 
